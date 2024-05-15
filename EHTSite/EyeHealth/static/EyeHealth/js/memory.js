@@ -76,76 +76,91 @@ if (canvas_memory != null){
             this.ctx = canvas.getContext("2d");
             this.shapes = []; // Массив фигур
             this.margin = margin;
+            this.NUM_ROWS = 4;
+            this.NUM_COLS = 4;
+            this.shapesType = ['квадрат', 'круг', 'треугольник', 'звезда'];
+            this.colors = ['red', 'blue', 'green', 'yellow'];
+        }
+        // Вспомогательная функция для генерации случайного типа фигуры
+        getRandomType() {
+            return this.shapesType[Math.floor(Math.random() * this.shapesType.length)];
+        }
+
+        // Вспомогательная функция для генерации случайного цвета
+        getRandomColor() {
+            return this.colors[Math.floor(Math.random() * this.colors.length)];
+        }
+
+        // Вспомогательная функция для проверки наличия типа в массиве shapesType
+        isValidType(type) {
+            return this.shapesType.includes(type);
+        }
+
+        // Вспомогательная функция для проверки наличия цвета в массиве colors
+        isValidColor(color) {
+            return this.colors.includes(color);
+        }
+
+        // Вспомогательная функция для расчета размера ячейки
+        calculateCellSize() {
+            return (this.canvas.width - this.margin * (this.NUM_COLS + 1)) / this.NUM_COLS;
         }
 
         // Метод для генерации случайных фигур и их расположения в таблице
         generateShapes() {
-            var shapesType = ['квадрат', 'круг', 'треугольник', 'звезда']; // Переименовали массив в shapesType
-            var colors = ['red', 'blue', 'green', 'yellow'];
-            var cellSize = (this.canvas.width - this.margin * 5) / 4; // Размер ячейки с учетом отступов
-            for (let row = 0; row < 4; row++) {
-                for (let col = 0; col < 4; col++) {
-                    var type = shapesType[Math.floor(Math.random() * shapesType.length)]; // Используем новое название массива
-                    var color = colors[Math.floor(Math.random() * colors.length)];
+            const cellSize = this.calculateCellSize();
+            for (let row = 0; row < this.NUM_ROWS; row++) {
+                for (let col = 0; col < this.NUM_COLS; col++) {
                     var x = col * (cellSize + this.margin) + this.margin;
                     var y = row * (cellSize + this.margin) + this.margin;
-                    this.shapes.push(new Shape(type, color, x, y, cellSize));
+                    this.shapes.push(new Shape(this.getRandomType(), this.getRandomColor(), x, y, cellSize));
                 }
             }
         }
 
-    generateShapesByType(type, count) {
-        var shapesType = ['квадрат', 'круг', 'треугольник', 'звезда'];
-        var colors = ['red', 'blue', 'green', 'yellow'];
-        var typeIndex = shapesType.indexOf(type); // Получаем индекс элемента в массиве
-        if (typeIndex !== -1) {
-            // Если элемент найден, извлекаем его из массива и удаляем
-            shapesType.splice(typeIndex, 1);
-        }
-        var shapesWithoutCords = [];
-        for (var i = 0; i < count; i++){
-            var color = colors[Math.floor(Math.random() * colors.length)]
-            shapesWithoutCords.push(new Shape(type, color))
-        }
-        for (var i = 0; i < (4*4)-count; i++){
-            var type_rnd = shapesType[Math.floor(Math.random() * shapesType.length)]; // Используем новое название массива
-            var color_rnd = colors[Math.floor(Math.random() * colors.length)];
-            shapesWithoutCords.push(new Shape(type_rnd, color_rnd));
-        }
-        shapesWithoutCords = shuffleArray(shapesWithoutCords);
-        var indexOfShape = 0;
-        var cellSize = (this.canvas.width - this.margin * 5) / 4; // Размер ячейки с учетом отступов
-        for (let row = 0; row < 4; row++) {
-            for (let col = 0; col < 4; col++) {
-                var x = col * (cellSize + this.margin) + this.margin;
-                var y = row * (cellSize + this.margin) + this.margin;
-                this.shapes.push(new Shape(shapesWithoutCords[indexOfShape].type,shapesWithoutCords[indexOfShape].color, x, y, cellSize));
-                indexOfShape++;
+        generateShapesByType(type, count) {
+
+            var typeIndex = this.shapesType.indexOf(type); // Получаем индекс элемента в массиве
+            if (typeIndex !== -1) {
+                // Если элемент найден, извлекаем его из массива и удаляем
+                this.shapesType.splice(typeIndex, 1);
+            }
+            var shapesWithoutCords = [];
+            for (var i = 0; i < count; i++){
+                var color = this.getRandomColor()
+                shapesWithoutCords.push(new Shape(type, color))
+            }
+            for (var i = 0; i < (this.NUM_ROWS*this.NUM_COLS)-count; i++){
+                shapesWithoutCords.push(new Shape(this.getRandomType(), this.getRandomColor()));
+            }
+            shapesWithoutCords = shuffleArray(shapesWithoutCords);
+            var indexOfShape = 0;
+            var cellSize = this.calculateCellSize();
+            for (let row = 0; row < 4; row++) {
+                for (let col = 0; col < 4; col++) {
+                    var x = col * (cellSize + this.margin) + this.margin;
+                    var y = row * (cellSize + this.margin) + this.margin;
+                    this.shapes.push(new Shape(shapesWithoutCords[indexOfShape].type,shapesWithoutCords[indexOfShape].color, x, y, cellSize));
+                    indexOfShape++;
+                }
             }
         }
 
-}
-
     generateShapesByColor(color, count) {
-        var shapesType = ['квадрат', 'круг', 'треугольник', 'звезда'];
-        var colors = ['red', 'blue', 'green', 'yellow'];
-        var colorIndex = colors.indexOf(color);
+        var colorIndex = this.colors.indexOf(color);
         if (colorIndex !== -1) {
-            colors.splice(colorIndex, 1);
+            this.colors.splice(colorIndex, 1);
         }
         var shapesWithoutCords = [];
         for (var i = 0; i < count; i++) {
-            var type = shapesType[Math.floor(Math.random() * shapesType.length)];
-            shapesWithoutCords.push(new Shape(type, color));
+            shapesWithoutCords.push(new Shape(this.getRandomType(), color));
         }
-        for (var i = 0; i < (4 * 4) - count; i++) {
-            var type_rnd = shapesType[Math.floor(Math.random() * shapesType.length)];
-            var color_rnd = colors[Math.floor(Math.random() * colors.length)];
-            shapesWithoutCords.push(new Shape(type_rnd, color_rnd));
+        for (var i = 0; i < (this.NUM_ROWS*this.NUM_COLS)-count; i++) {
+            shapesWithoutCords.push(new Shape(this.getRandomType(), this.getRandomColor()));
         }
         shapesWithoutCords = shuffleArray(shapesWithoutCords);
         var indexOfShape = 0;
-        var cellSize = (this.canvas.width - this.margin * 5) / 4;
+        const cellSize = this.calculateCellSize();
         for (let row = 0; row < 4; row++) {
             for (let col = 0; col < 4; col++) {
                 var x = col * (cellSize + this.margin) + this.margin;
@@ -157,22 +172,20 @@ if (canvas_memory != null){
 }
 
     generateShapesByTypeAndColor(type, color, count) {
-        var shapesType = ['квадрат', 'круг', 'треугольник', 'звезда'];
-        var colors = ['red', 'blue', 'green', 'yellow'];
 
         // Проверяем наличие заданного типа и цвета в массивах shapesType и colors
-        if (!shapesType.includes(type) || !colors.includes(color)) {
+        if (!this.isValidType(type) || !this.isValidColor(color)) {
             console.error('Указанный тип или цвет фигуры не найдены.');
             return;
         }
 
         // Удаляем заданный тип из массива shapesType
-        var typeIndex = shapesType.indexOf(type);
-        shapesType.splice(typeIndex, 1);
+        var typeIndex = this.shapesType.indexOf(type);
+        this.shapesType.splice(typeIndex, 1);
 
         // Удаляем заданный цвет из массива colors
-        var colorIndex = colors.indexOf(color);
-        colors.splice(colorIndex, 1);
+        var colorIndex = this.colors.indexOf(color);
+        this.colors.splice(colorIndex, 1);
 
         // Генерируем фигуры заданного типа и цвета
         var shapesWithoutCords = [];
@@ -182,9 +195,7 @@ if (canvas_memory != null){
 
         // Дополняем оставшиеся ячейки случайными фигурами других типов и цветов
         for (var i = 0; i < (4 * 4) - count; i++) {
-            var randomType = shapesType[Math.floor(Math.random() * shapesType.length)];
-            var randomColor = colors[Math.floor(Math.random() * colors.length)];
-            shapesWithoutCords.push(new Shape(randomType, randomColor));
+            shapesWithoutCords.push(new Shape(this.getRandomType(), this.getRandomColor()));
         }
 
         // Перемешиваем массив фигур
@@ -192,7 +203,7 @@ if (canvas_memory != null){
 
         // Распределяем фигуры заданного типа и цвета между оставшимися случайными
         var indexOfShape = 0;
-        var cellSize = (this.canvas.width - this.margin * 5) / 4;
+        var cellSize = this.calculateCellSize();
         for (let row = 0; row < 4; row++) {
             for (let col = 0; col < 4; col++) {
                 var x = col * (cellSize + this.margin) + this.margin;
@@ -213,14 +224,12 @@ if (canvas_memory != null){
             return;
         }
 
-        var shapesType = ['квадрат', 'круг', 'треугольник', 'звезда'];
-        var colors = ['red', 'blue', 'green', 'yellow'];
-
         // Проверяем наличие заданного типа и цвета в массивах shapesType и colors
-        if (!shapesType.includes(type) || !colors.includes(color)) {
+        if (!this.isValidType(type) || !this.isValidColor(color)) {
             console.error('Указанный тип или цвет фигуры не найдены.');
             return;
         }
+
         // Генерируем фигуры заданного типа и цвета
         var shapesWithoutCordsRow = [];
         for (var i = 0; i < count; i++) {
@@ -229,35 +238,29 @@ if (canvas_memory != null){
         var rowCount = shapesWithoutCordsRow.length;
         if (rowCount < 4){
             for (var i = 0; i < (4 - rowCount); i++ ){
-                var randomType = shapesType[Math.floor(Math.random() * shapesType.length)];
-                var randomColor = colors[Math.floor(Math.random() * colors.length)];
+                var randomType = this.getRandomType();
+                var randomColor = this.getRandomColor();
                 while (randomType == type && randomColor == color){
-                    randomType = shapesType[Math.floor(Math.random() * shapesType.length)];
-                    randomColor = colors[Math.floor(Math.random() * colors.length)];
+                    randomType = this.getRandomType();
+                    randomColor = this.getRandomColor();
                 }
                 shapesWithoutCordsRow.push(new Shape(randomType, randomColor));
             }
         }
         shapesWithoutCordsRow = shuffleArray(shapesWithoutCordsRow);
-        var cellSize = (this.canvas.width - this.margin * 5) / 4;
+        var cellSize = this.calculateCellSize();
         for (let row = 0; row < 4; row++) {
             for (let col = 0; col < 4; col++) {
                 var x = col * (cellSize + this.margin) + this.margin;
                 var y = row * (cellSize + this.margin) + this.margin;
                 if (row != customRow){
-                    var type = shapesType[Math.floor(Math.random() * shapesType.length)]; // Используем новое название массива
-                    var color = colors[Math.floor(Math.random() * colors.length)];
-                    this.shapes.push(new Shape(type, color, x, y, cellSize));
+                    this.shapes.push(new Shape(this.getRandomType(), this.getRandomColor(), x, y, cellSize));
                 }
                 else{
                     this.shapes.push(new Shape(shapesWithoutCordsRow[col].type, shapesWithoutCordsRow[col].color, x, y, cellSize));
                 }
             }
-
-
         }
-
-
     }
 
     generateShapesByTypeAndColorAndCol(type, color, count, customCol) {
@@ -270,11 +273,8 @@ if (canvas_memory != null){
             return;
         }
 
-        var shapesType = ['квадрат', 'круг', 'треугольник', 'звезда'];
-        var colors = ['red', 'blue', 'green', 'yellow'];
-
         // Проверяем наличие заданного типа и цвета в массивах shapesType и colors
-        if (!shapesType.includes(type) || !colors.includes(color)) {
+        if (!this.isValidType(type) || !this.isValidColor(color)) {
             console.error('Указанный тип или цвет фигуры не найдены.');
             return;
         }
@@ -287,28 +287,25 @@ if (canvas_memory != null){
         var colCount = shapesWithoutCordsCol.length;
         if (colCount < 4){
             for (var i = 0; i < (4 - colCount); i++ ){
-                var randomType = shapesType[Math.floor(Math.random() * shapesType.length)];
-                var randomColor = colors[Math.floor(Math.random() * colors.length)];
+                var randomType = this.getRandomType();
+                var randomColor = this.getRandomColor();
                 while (randomType == type && randomColor == color){
-                    randomType = shapesType[Math.floor(Math.random() * shapesType.length)];
-                    randomColor = colors[Math.floor(Math.random() * colors.length)];
+                    randomType = this.getRandomType();
+                    randomColor = this.getRandomColor();
                 }
                 shapesWithoutCordsCol.push(new Shape(randomType, randomColor));
             }
         }
         shapesWithoutCordsCol = shuffleArray(shapesWithoutCordsCol);
-        var cellSize = (this.canvas.width - this.margin * 5) / 4;
+        var cellSize = this.calculateCellSize();
         for (let col = 0; col < 4; col++) {
             for (let row = 0; row < 4; row++) {
                 var x = col * (cellSize + this.margin) + this.margin;
                 var y = row * (cellSize + this.margin) + this.margin;
                 if (col != customCol){
-                    var type = shapesType[Math.floor(Math.random() * shapesType.length)];
-                    var color = colors[Math.floor(Math.random() * colors.length)];
-                    this.shapes.push(new Shape(type, color, x, y, cellSize));
+                    this.shapes.push(new Shape(this.getRandomType(), this.getRandomColor(), x, y, cellSize));
                 }
                 else{
-
                     this.shapes.push(new Shape(shapesWithoutCordsCol[row].type, shapesWithoutCordsCol[row].color, x, y, cellSize));
                 }
             }
@@ -326,9 +323,10 @@ if (canvas_memory != null){
     }
 
     // Пример использования:
+    ctx.strokeRect(0, 0, width, height);
     var margin = 10; // Отступ между фигурами
     var shapeTable = new ShapeTable(canvas_memory, margin);
-    shapeTable.generateShapesByTypeAndColorAndRow('круг','yellow', 3, 2);
+    shapeTable.generateShapesByTypeAndColorAndRow('круг','yellow', 2, 2);
     shapeTable.draw(); // Отрисовка таблицы с фигурами
 
 
