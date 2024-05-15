@@ -1,17 +1,22 @@
-var canvas = document.getElementById("canvas");
-if (canvas != null){
-    var ctx = canvas.getContext("2d");
-var width = canvas.width;
-var height = canvas.height;
-var xSpeed = 5;
-var ySpeed = 3;
+var canvas_blink = document.getElementById("canvas-blink");
+if (canvas_blink != null){
+    var ctx = canvas_blink.getContext("2d");
+var width = canvas_blink.width;
+var height = canvas_blink.height;
+//Настройка диапазона прыжка
+var maxSpeed = 200;
+var minSpeed = -200;
+//Радиус
 var radius = 30;
+//Настройка диапазона между нажатиями
 var minSec = 3000;
 var maxSec = 4000;
-var FilledTime = 1300;
-var clickLimit = 4;
+var blink_intervals = 700; //Сколько прыгает (харкодится внизу)
+var FilledTime = 1300; //Сколько ждет нажатия
+var clickLimit = 2; //Сколько должно быть нажатий
+//Настройка общего времени анимации
 var isEndOfAnimation = false;
-var timeOfAnimation = (clickLimit+1)*(maxSec + FilledTime);
+var timeOfAnimation = clickLimit*(maxSec + FilledTime + 500);
 
 var circle = function (x, y, radius, fillCircle) {
     ctx.beginPath();
@@ -23,40 +28,67 @@ var circle = function (x, y, radius, fillCircle) {
     }
 };
 
-var Ball = function (xSpeed, ySpeed, radius, clickLimit) {
+var Ball = function (maxSpeed, minSpeed, radius, clickLimit) {
     this.x = width / 2;
     this.y = height / 2;
-    this.xSpeed = xSpeed;
-    this.ySpeed = ySpeed;
+    this.maxSpeed = maxSpeed;
+    this.minSpeed = minSpeed;
     this.radius = radius;
     this.isFilled = false;
     this.clickable = true;
     this.showCount = 0;
     this.clickCount = 0; // Счетчик кликов
     this.clickLimit = clickLimit; // Максимальное количество кликов
+
 };
+Ball.prototype.checkCollision = function(xSpeed, ySpeed){
+    if (this.x - this.radius < 0){
+            this.x = 0;
+            this.x += -xSpeed;
+    }
+    if (this.x + this.radius > width){
+        this.x = width - this.radius;
+        this.x += -xSpeed;
+    }
+    if (this.y - this.radius < 0){
+        this.y = this.radius;
+        this.y += -ySpeed;
+    }
+    if (this.y + this.radius > height){
+        this.y = height - this.radius;
+        this.y += -ySpeed;
+    }
+}
 
 Ball.prototype.move = function () {
-    // Проверка на выход за границы по горизонтали
-    if (this.x - this.radius < 0 || this.x + this.radius > width) {
-        this.xSpeed = -this.xSpeed;
+    if (this.isFilled) {
+        xSpeed = 0;
+        ySpeed = 0;
     }
-    // Проверка на выход за границы по вертикали
-    if (this.y - this.radius < 0 || this.y + this.radius > height) {
-        this.ySpeed = -this.ySpeed;
+    else {
+        xSpeed = Math.floor(Math.random() * (maxSpeed - minSpeed + 1)) + minSpeed;
+        ySpeed = Math.floor(Math.random() * (maxSpeed - minSpeed + 1)) + minSpeed;
     }
-    this.x += this.xSpeed;
-    this.y += this.ySpeed;
+    this.x += xSpeed;
+    this.y += ySpeed;
+    this.checkCollision(xSpeed,ySpeed);
 };
 
 Ball.prototype.draw = function () {
     circle(this.x, this.y, this.radius, this.isFilled);
 };
+Ball.prototype.draw_and_move = function (ctx) {
+    ctx.clearRect(0, 0, width, height);
+    this.draw();
+    this.move();
+    ctx.strokeRect(0, 0, width, height);
+}
 
 var ball = new Ball(xSpeed, ySpeed, radius, clickLimit);
 
-// Массив с интервалами
+// Массивы с интервалами
 var intervals = [Math.floor(Math.random() * (maxSec - minSec + 1)) + minSec, FilledTime];
+
 
 // Текущий индекс интервала
 var currentIntervalIndex = 0;
@@ -89,23 +121,25 @@ Ball.prototype.toggleFill = function () {
         }
     }
 
+
     if (this.isFilled && this.clickCount < this.clickLimit) {
-        canvas.addEventListener("click", clickHandler);
+        canvas_blink.addEventListener("click", clickHandler);
     } else {
-        canvas.removeEventListener("click", clickHandler);
+        canvas_blink.removeEventListener("click", clickHandler);
     }
+
     setTimeout(function () {
         if(ball.clickCount < ball.clickLimit){
             ball.toggleFill();
             if (ball.isFilled && ball.showCount < ball.clickLimit) ball.showCount++;
             console.log(ball.showCount);
+
         }
     }, intervals[currentIntervalIndex]);
 };
 
 setTimeout(function () {
-    if(ball.clickCount < ball.clickLimit)
-    {
+    if(ball.clickCount < ball.clickLimit){
         ball.toggleFill();
         if (ball.isFilled) ball.showCount++;
         console.log(ball.showCount);
@@ -114,8 +148,8 @@ setTimeout(function () {
 
 function clickHandler(event) {
     if (ball.clickable) {
-        var mouseX = event.clientX - canvas.getBoundingClientRect().left;
-        var mouseY = event.clientY - canvas.getBoundingClientRect().top;
+        var mouseX = event.clientX - canvas_blink.getBoundingClientRect().left;
+        var mouseY = event.clientY - canvas_blink.getBoundingClientRect().top;
         if (Math.sqrt((mouseX - ball.x) ** 2 + (mouseY - ball.y) ** 2) <= ball.radius  && ball.clickable && ball.clickCount < ball.clickLimit) {
             ball.clickCount++;
             console.log("КЛИК");
@@ -136,12 +170,21 @@ var animationTimer = setTimeout(function () {
     console.log("Конец анимации")
 }, timeOfAnimation); // Установка таймера на всю длительность анимации
 
+function do_animatic(){
+    ball.draw_and_move(ctx)
+    if (ball.isFilled){
+        clearInterval(animationInterval);
+        blink_intervals = 30;
+        animationInterval = setInterval(do_animatic, blink_intervals);
+    }
+    else {
+        clearInterval(animationInterval);
+        blink_intervals = 500;
+        animationInterval = setInterval(do_animatic, blink_intervals);
+    }
+}
 
-var animationInterval = setInterval(function () {
-    ctx.clearRect(0, 0, width, height);
-    ball.draw();
-    ball.move();
-    ctx.strokeRect(0, 0, width, height);
-}, 30);
+
+var animationInterval = setInterval(do_animatic, blink_intervals);
 
 }

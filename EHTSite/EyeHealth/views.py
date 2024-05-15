@@ -81,3 +81,5 @@ def results(request, type_of_training, difficulty_level):
 
 def pingpong(request):
     return render(request, 'EyeHealth/pingpong-test.html')
+def blink(request):
+    return render(request, 'EyeHealth/blink-test.html')
