@@ -94,21 +94,18 @@ Ball.prototype.toggleFill = function () {
     } else {
         canvas.removeEventListener("click", clickHandler);
     }
-    setTimeout(function () {
-        if(ball.clickCount < ball.clickLimit){
-            ball.toggleFill();
-            if (ball.isFilled && ball.showCount < ball.clickLimit) ball.showCount++;
-        }
-    }, intervals[currentIntervalIndex]);
+    if (!isEndOfAnimation){
+        setTimeout(function () {
+        ball.toggleFill();
+        if (ball.isFilled && ball.showCount < ball.clickLimit) ball.showCount++;
+        }, intervals[currentIntervalIndex]);
+    }
+
 };
 
 setTimeout(function () {
-    if(ball.clickCount < ball.clickLimit)
-    {
-        ball.toggleFill();
-        if (ball.isFilled) ball.showCount++;
-
-    }
+    ball.toggleFill();
+    if (ball.isFilled) ball.showCount++;
 }, intervals[currentIntervalIndex]);
 
 function clickHandler(event) {

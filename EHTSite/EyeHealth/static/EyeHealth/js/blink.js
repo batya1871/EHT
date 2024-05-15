@@ -12,7 +12,7 @@ var radius = 30;
 var minSec = 3000;
 var maxSec = 4000;
 var blink_intervals = 700; //Сколько прыгает (харкодится внизу)
-var FilledTime = 1300; //Сколько ждет нажатия
+var FilledTime = 1500; //Сколько ждет нажатия
 var clickLimit = 5; //Сколько должно быть нажатий
 //Настройка общего времени анимации
 var isEndOfAnimation = false;
@@ -127,15 +127,12 @@ Ball.prototype.toggleFill = function () {
     } else {
         canvas_blink.removeEventListener("click", clickHandler);
     }
-
-    setTimeout(function () {
-        if(ball.clickCount < ball.clickLimit){
-            ball.toggleFill();
-            if (ball.isFilled && ball.showCount < ball.clickLimit) ball.showCount++;
-
-
-        }
-    }, intervals[currentIntervalIndex]);
+    if (!isEndOfAnimation){
+        setTimeout(function () {
+                ball.toggleFill();
+                if (ball.isFilled && ball.showCount < ball.clickLimit) ball.showCount++;
+        }, intervals[currentIntervalIndex]);
+    }
 };
 
 setTimeout(function () {
