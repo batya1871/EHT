@@ -13,5 +13,6 @@ urlpatterns = [
          name='results'),
     path('pingpong/', views.pingpong),
     path('blink/', views.blink),
-    path('block-fall/', views.block_fall)
+    path('block-fall/', views.block_fall),
+    path('memory/', views.memory)
 ]

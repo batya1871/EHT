@@ -86,3 +86,6 @@ def blink(request):
 
 def block_fall(request):
     return render(request, 'EyeHealth/block-fall-test.html')
+
+def memory(request):
+    return render(request, 'EyeHealth/memory-test.html')
