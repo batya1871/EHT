@@ -9,9 +9,9 @@ var radius = 30;
 var minSec = 3000;
 var maxSec = 4000;
 var FilledTime = 1300;
-var clickLimit = 4;
+var clickLimit = 3;
 var isEndOfAnimation = false;
-var timeOfAnimation = (clickLimit+1)*(maxSec + FilledTime);
+var timeOfAnimation = ((clickLimit)*(maxSec + FilledTime) + 500);
 
 var circle = function (x, y, radius, fillCircle) {
     ctx.beginPath();
@@ -67,7 +67,7 @@ function changeInterval() {
             currentIntervalIndex++;
         if (currentIntervalIndex == 1) {
             intervals[0] = Math.floor(Math.random() * (maxSec - minSec + 1)) + minSec;
-            console.log(intervals[0]);
+
         }
         if (currentIntervalIndex >= intervals.length) {
             currentIntervalIndex = 0;
@@ -98,7 +98,6 @@ Ball.prototype.toggleFill = function () {
         if(ball.clickCount < ball.clickLimit){
             ball.toggleFill();
             if (ball.isFilled && ball.showCount < ball.clickLimit) ball.showCount++;
-            console.log(ball.showCount);
         }
     }, intervals[currentIntervalIndex]);
 };
@@ -108,7 +107,7 @@ setTimeout(function () {
     {
         ball.toggleFill();
         if (ball.isFilled) ball.showCount++;
-        console.log(ball.showCount);
+
     }
 }, intervals[currentIntervalIndex]);
 
@@ -126,12 +125,6 @@ function clickHandler(event) {
             setTimeout(function () {
                 ctx.fillStyle = "black";
             }, 100); // Меняем цвет обратно через 100 миллисекунд
-            if (ball.clickCount >= ball.clickLimit) {
-                ball.isFilled = false; // Если достигнуто максимальное количество кликов, круг больше не закрашивается
-                // И кликабельность круга отключается
-                console.log("Достигнуто максимальное количество кликов");
-            }
-
         }
     }
 }
@@ -139,7 +132,13 @@ function clickHandler(event) {
 var animationTimer = setTimeout(function () {
     clearInterval(animationInterval);
     isEndOfAnimation = true;
-    console.log("Конец анимации")
+    console.log("Конец анимации");
+    console.log("Результаты")
+        console.log("Кол-во показываний = " + ball.showCount);
+        console.log("Кол-во верных кликов = " + ball.clickCount);
+        if (ball.showCount == ball.clickCount){
+            console.log("Харош");
+        }
 }, timeOfAnimation); // Установка таймера на всю длительность анимации
 
 
