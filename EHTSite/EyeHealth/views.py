@@ -83,3 +83,6 @@ def pingpong(request):
     return render(request, 'EyeHealth/pingpong-test.html')
 def blink(request):
     return render(request, 'EyeHealth/blink-test.html')
+
+def block_fall(request):
+    return render(request, 'EyeHealth/block-fall-test.html')

@@ -13,7 +13,7 @@ var minSec = 3000;
 var maxSec = 4000;
 var blink_intervals = 700; //Сколько прыгает (харкодится внизу)
 var FilledTime = 1300; //Сколько ждет нажатия
-var clickLimit = 2; //Сколько должно быть нажатий
+var clickLimit = 5; //Сколько должно быть нажатий
 //Настройка общего времени анимации
 var isEndOfAnimation = false;
 var timeOfAnimation = clickLimit*(maxSec + FilledTime + 500);
@@ -150,6 +150,12 @@ function clickHandler(event) {
     if (ball.clickable) {
         var mouseX = event.clientX - canvas_blink.getBoundingClientRect().left;
         var mouseY = event.clientY - canvas_blink.getBoundingClientRect().top;
+        ctx.fillStyle = "red";
+            ball.draw();
+            setTimeout(function () {
+                ctx.fillStyle = "black";
+            }, 100); // Меняем цвет обратно через 100 миллисекунд
+
         if (Math.sqrt((mouseX - ball.x) ** 2 + (mouseY - ball.y) ** 2) <= ball.radius  && ball.clickable && ball.clickCount < ball.clickLimit) {
             ball.clickCount++;
             console.log("КЛИК");

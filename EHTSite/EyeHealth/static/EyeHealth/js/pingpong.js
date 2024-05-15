@@ -120,11 +120,17 @@ function clickHandler(event) {
             ball.clickCount++;
             console.log("КЛИК");
             ball.clickable = false;
+            // Изменяем цвет круга на мгновение на красный
+            ctx.fillStyle = "red";
+            ball.draw();
+            setTimeout(function () {
+                ctx.fillStyle = "black";
+            }, 100); // Меняем цвет обратно через 100 миллисекунд
             if (ball.clickCount >= ball.clickLimit) {
-            ball.isFilled = false; // Если достигнуто максимальное количество кликов, круг больше не закрашивается
-            // И кликабельность круга отключается
-            console.log("Достигнуто максимальное количество кликов");
-        }
+                ball.isFilled = false; // Если достигнуто максимальное количество кликов, круг больше не закрашивается
+                // И кликабельность круга отключается
+                console.log("Достигнуто максимальное количество кликов");
+            }
 
         }
     }

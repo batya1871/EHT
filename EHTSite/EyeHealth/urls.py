@@ -12,5 +12,6 @@ urlpatterns = [
     path('<str:type_of_training>/<str:difficulty_level>/results', views.results,
          name='results'),
     path('pingpong/', views.pingpong),
-    path('blink/', views.blink)
+    path('blink/', views.blink),
+    path('block-fall/', views.block_fall)
 ]
