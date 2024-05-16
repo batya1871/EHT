@@ -106,7 +106,24 @@ class Choice(models.Model):
 
 
 class Result(models.Model):
-    type_of_training = models.ForeignKey(Type_of_training, verbose_name="Тип тренировки", on_delete=models.CASCADE)
+    task_block = models.ForeignKey(Task_block, verbose_name="Тест", on_delete=models.CASCADE)
     user = models.ForeignKey(MyUser, verbose_name="Пользователь", on_delete=models.CASCADE)
-    correct = models.IntegerField("Кол-во правильных ответов", default=0)
-    wrong = models.IntegerField("Кол-во неправильных ответов", default=0)
+    correct = models.IntegerField("Кол-во правильных ответов", blank=True, default=0)
+    wrong = models.IntegerField("Кол-во неправильных ответов", blank=True, default=0)
+    allClickCount = models.IntegerField("Общее количество необходимых кликов", blank=True, default=0)
+    usersClickCount = models.IntegerField("Количество верных кликов пользователя", blank=True, default=0)
+
+    def get_percentage(self):
+        return self.usersClickCount / self.allClickCount * 100 if self.allClickCount > 0 else 0
+
+    def get_grade(self):
+        percentage = self.task_block.task_set.count() / self.correct * 100
+        grade_thresholds = {
+            "easy": [(90, 5), (70, 4), (50, 3)],
+            "medium": [(80, 5), (60, 4), (40, 3)],
+            "hard": [(70, 5), (50, 4), (30, 3)]
+        }
+        for threshold, grade in grade_thresholds[self.task_block.difficulty_level.name.split("-")[0]]:
+            if percentage >= threshold:
+                return grade
+        return 2

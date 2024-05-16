@@ -23,7 +23,7 @@ if (canvas_block_fall != null){
     //Расчет общего времени работы анимации
     //Настройка общего времени анимации
     var timeOfAnimation = (clickLimit*(maxSec + FilledTime) + 500);
-
+    var isEndOfAnimation = false;
     class Block {
         constructor(x, y, width, height, speed) {
             this.x = x;
@@ -195,8 +195,9 @@ if (canvas_block_fall != null){
     });
 
     setTimeout(function() {
-        animationId = requestAnimationFrame(animate); // Запрашиваем следующий кадр анимации
-
+        if (!isEndOfAnimation){
+            animationId = requestAnimationFrame(animate); // Запрашиваем следующий кадр анимации
+        }
     }, 10 ); // Рассчитываем интервал в соответствии со скоростью смены кадров 10 20 25
 
 }
@@ -206,6 +207,7 @@ if (canvas_block_fall != null){
             console.log("Результаты")
             console.log("Кол-во показываний = " + showCount);
             console.log("Кол-во верных кликов = " + clickCount);
+            isEndOfAnimation = true;
             if (showCount == clickCount){
                 console.log("Харош");
             }
