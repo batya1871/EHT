@@ -107,7 +107,7 @@ img {
 
 /*Header */
 
-/*Training session*/
+/*warm-up session*/
 .form-container{
     display: flex;
     height: 90%;
@@ -118,7 +118,7 @@ img {
 }
 
 
-.btn-training-mode{
+.btn-type-of-warm-up{
   color: #fff;
   background-color:#0a408f;
   border: none;
@@ -135,10 +135,10 @@ img {
   white-space: nowrap;
   transition: all .5s;
 }
-.btn-training-mode:hover {
+.btn-type-of-warm-up:hover {
   background-color:#1356b8;
 }
-.training-mode-div{
+.type-of-warm-up-div{
     border: 1px solid #0a408f;
     border-radius: var(--bs-border-radius);
     box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
@@ -147,6 +147,10 @@ img {
     min-height: 40%;
     background-color:#c9dfff;
 
+}
+.form-type-of-warm-up-field{
+    display:flex;
+    flex-direction:row;
 }
 .btn-disabled{
     background-color:#7a7e84 !important;
@@ -160,17 +164,19 @@ img {
     box-shadow: none !important;
 }
 
-.form-training-mode-header{
+.form-type-of-warm-up-header{
     width:100%;
     border-radius: var(--bs-border-radius) var(--bs-border-radius) 0 0 ;
     margin-bottom: 5px;
 
 }
-.form-training-mode-body{
+.form-type-of-warm-up-body{
     margin-bottom: 30px;
+    display:flex;
+    flex-direction: column;
 
 }
-/*Training session*/
+/*warm-up session*/
 
 /* Statistic */
 
@@ -192,29 +198,31 @@ table tr {
 
 /* Statistic */
 
-/* display exercise */
-.exercise-container{
+/* display task */
+.task-container{
     display:flex;
     height:90%;
     align-items: center;
     justify-content: center;
 }
-.exercise-css{
-    border: 1px solid #0a408f;
-    border-radius: var(--bs-border-radius);
-    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+.task-css{
     padding:15px;
     min-width: 35%;
     min-height: 40%;
     background-color:#c9dfff;
+    display:flex;
+    flex-direction: column;
+    margin-bottom: 5px;
 }
 .text-task-base{
     font-weight: bold;
 }
-.task-css{
-    display:flex;
-    flex-direction: column;
-    margin-bottom: 5px;
+.canvas-task{
+    border: 1px solid #0a408f;
+    border-radius: var(--bs-border-radius);
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+    width:375px;
+    height: 375px;
 }
 .text-task-css{
 
@@ -238,7 +246,7 @@ table tr {
 .textarea-max-height{
     max-height:205px
 }
-.exercise-refs{
+.task-refs{
     display:flex;
     flex-direction: row-reverse;
     justify-content: space-between;
@@ -264,7 +272,7 @@ table tr {
 .btn-default:hover {
   background-color:#1356b8;
 }
-.ref-btn-ex{
+.ref-btn-task{
   text-decoration: none;
   border-radius: 25px;
     transition: all .5s;
@@ -295,7 +303,17 @@ table tr {
    background-color: #2ad499;
    color: #fff;
 }
-/* display exercise */
+.answer-memory{
+    display:flex;
+    flex-direction:column;
+}
+.answer-memory-field{
+    display:flex;
+    flex-direction:row;
+}
+
+
+/* display task */
 
 /* before results*/
 .ref-before-results{
@@ -574,3 +592,8 @@ table tr {
     min-height: 33%;
 }
 /* USERS */
+
+
+.input-hidden{
+    display: none !important;
+}

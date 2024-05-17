@@ -10,7 +10,7 @@ if (canvas_block_fall != null){
     //Настройка диапазона между нажатиями
     var minSec = 3000;
     var maxSec = 4000;
-    var FilledTime = 1300; //Сколько ждет нажатия
+    var FilledTime = 1500; //Сколько ждет нажатия
     // Случайный выбор направления для всех квадратов
     var randomDirectionIndex = Math.floor(Math.random() * directions.length);
     var direction = directions[randomDirectionIndex];
@@ -177,8 +177,7 @@ if (canvas_block_fall != null){
             }
         });
 
-
-}
+    }
 
     setInterval(fillRandomBlock, Math.floor(Math.random() * (maxSec - minSec + 1)) + minSec);
 
@@ -198,7 +197,7 @@ if (canvas_block_fall != null){
         if (!isEndOfAnimation){
             animationId = requestAnimationFrame(animate); // Запрашиваем следующий кадр анимации
         }
-    }, 10 ); // Рассчитываем интервал в соответствии со скоростью смены кадров 10 20 25
+    }, 15 ); // Рассчитываем интервал в соответствии со скоростью смены кадров 10 20 25
 
 }
     function stopAnimationAfterTime(timeOfAnimation) {

@@ -5,6 +5,8 @@ from django.db import models
 
 
 class MyUser(AbstractUser):
+    users_block = models.OneToOneField('Users_block', on_delete=models.SET_NULL, null=True, blank=True,
+                                       related_name="user")
 
     def __str__(self):
         return self.username
@@ -17,23 +19,9 @@ class MyUser(AbstractUser):
         self.choice_set.all().delete()
         self.result_set.all().delete()
 
-    def is_answered_check(self, check_exercise):
-        check = self.choice_set.filter(exercise=check_exercise)
-        return check.first().user_answer if check.count() > 0 else None
 
-    def get_skipped_exercise_count(self, tasks):
-        return len(tasks) - self.choice_set.count()
-
-    def get_answer_if_choice_wrong(self, task):
-        choice = self.choice_set.filter(task=task)
-        correct_answers = task.correct_answer
-        if choice.first().user_answer != correct_answers:
-            return choice.first().user_answer
-        return None
-
-
-class Type_of_training(models.Model):
-    name = models.CharField("Название", max_length=10, unique=True)
+class Type_of_warm_up(models.Model):
+    name = models.CharField("Название", max_length=15, unique=True)
 
     def __str__(self):
         return self.name
@@ -44,8 +32,8 @@ class Type_of_training(models.Model):
 
 
 class Difficulty_level(models.Model):
-    name = models.CharField("Сложность", max_length=20, unique=True)
-    type_of_training = models.ForeignKey(Type_of_training, verbose_name="Тип тренировки", on_delete=models.CASCADE)
+    name = models.CharField("Сложность", max_length=25, unique=True)
+    type_of_warm_up = models.ForeignKey(Type_of_warm_up, verbose_name="Тип разминки", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -54,22 +42,17 @@ class Difficulty_level(models.Model):
         verbose_name = "Уровень сложности"
         verbose_name_plural = "Уровни сложности"
 
-    def get_first_exercise_block(self):
+    def get_first_task_block(self):
         return self.exercise_block_set.first()
 
-    def get_random_exercise_block(self):
-        return self.exercise_block_set.all()[randint(0, self.exercise_block_set.count() - 1)]
+    def get_random_task_block(self):
+        task_block = self.task_block_set.all()[randint(0, self.task_block_set.count() - 1)]
+        return task_block
 
 
 class Task_block(models.Model):
     name = models.TextField("Название теста", unique=True)
     difficulty_level = models.ForeignKey(Difficulty_level, verbose_name="Уровень сложности", on_delete=models.CASCADE)
-
-    def set_nums(self):
-        exercises = self.exercise_set.all()
-        for ind, exercise in enumerate(exercises):
-            exercise.num = ind
-            exercise.save()
 
     def __str__(self):
         return self.name
@@ -79,20 +62,23 @@ class Task_block(models.Model):
         verbose_name_plural = "Тесты"
 
 
+class Users_block(models.Model):
+    task_block = models.ForeignKey(Task_block, verbose_name="Тест", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "Пользователь: " + str(self.user) + " Блок: " + str(self.task_block)
+
+
 class Task(models.Model):
     task_text = models.TextField("Задание", blank=True)
     num = models.IntegerField("Номер в списке", default=0)
     task_block = models.ForeignKey(Task_block, verbose_name="Тест", on_delete=models.CASCADE)
     animatic_type = models.TextField("Тип анимации", blank=True)
-    correct_answer = models.PositiveSmallIntegerField("Правильный ответ")
-    processed = models.BooleanField("Это поле обработано", default=False)
+    correct_answer = models.TextField("Правильный ответ")
 
     def __str__(self):
-        return "№" + str(self.num) + " Задание: " + str(self.task)
+        return "№" + str(self.num) + " Задание: " + str(self.task_text)
 
-    def end_of_processing(self):
-        self.processed = True
-        self.save()
 
     class Meta:
         verbose_name = "Задание"
@@ -102,7 +88,7 @@ class Task(models.Model):
 class Choice(models.Model):
     user = models.ForeignKey(MyUser, verbose_name="Пользователь", on_delete=models.CASCADE)
     task = models.ForeignKey(Task, verbose_name="Задание", on_delete=models.CASCADE)
-    user_answer = models.TextField("Ответ пользователя")
+    user_answer = models.TextField("Ответ пользователя", default="")
 
 
 class Result(models.Model):

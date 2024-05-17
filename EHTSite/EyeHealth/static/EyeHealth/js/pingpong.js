@@ -1,14 +1,14 @@
-var canvas = document.getElementById("canvas");
-if (canvas != null){
-    var ctx = canvas.getContext("2d");
-var width = canvas.width;
-var height = canvas.height;
+var canvas_pingpong = document.getElementById("canvas-pingpong");
+if (canvas_pingpong != null){
+    var ctx = canvas_pingpong.getContext("2d");
+var width = canvas_pingpong.width;
+var height = canvas_pingpong.height;
 var xSpeed = 5;
 var ySpeed = 3;
-var radius = 30;
+var radius = 40;
 var minSec = 3000;
 var maxSec = 4000;
-var FilledTime = 1300;
+var FilledTime = 1500;
 var clickLimit = 3;
 var isEndOfAnimation = false;
 var timeOfAnimation = ((clickLimit)*(maxSec + FilledTime) + 500);
@@ -90,9 +90,9 @@ Ball.prototype.toggleFill = function () {
     }
 
     if (this.isFilled && this.clickCount < this.clickLimit) {
-        canvas.addEventListener("click", clickHandler);
+        canvas_pingpong.addEventListener("click", clickHandler);
     } else {
-        canvas.removeEventListener("click", clickHandler);
+        canvas_pingpong.removeEventListener("click", clickHandler);
     }
     if (!isEndOfAnimation){
         setTimeout(function () {
@@ -110,8 +110,8 @@ setTimeout(function () {
 
 function clickHandler(event) {
     if (ball.clickable) {
-        var mouseX = event.clientX - canvas.getBoundingClientRect().left;
-        var mouseY = event.clientY - canvas.getBoundingClientRect().top;
+        var mouseX = event.clientX - canvas_pingpong.getBoundingClientRect().left;
+        var mouseY = event.clientY - canvas_pingpong.getBoundingClientRect().top;
         if (Math.sqrt((mouseX - ball.x) ** 2 + (mouseY - ball.y) ** 2) <= ball.radius  && ball.clickable && ball.clickCount < ball.clickLimit) {
             ball.clickCount++;
             console.log("КЛИК");

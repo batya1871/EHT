@@ -1,4 +1,30 @@
 {% extends 'base.html' %}
 {% block content %}
-<p>{{title}}</p>
+<div class="form-container">
+    <div class="type-of-warm-up-div">
+        <form method="post">
+        {% csrf_token %}
+        <div class="form-type-of-warm-up-header"><h2>Начать разминку</h2></div>
+        <div class="form-type-of-warm-up-body">
+            <div class="form-type-of-warm-up-field">
+                <label class="form-label" for="dif_sel_id">Уровень сложности:</label>
+            <select id="dif_sel_id" class="form-select" name="diff_option" size="1">
+                <option value="easy">Легкий</option>
+                <option value="medium">Средний</option>
+                <option value="hard">Сложный</option>
+            </select>
+            </div>
+            <div class="form-type-of-warm-up-field">
+                 <label class="form-label" for="type_sel_id">Тип разминки:</label>
+            <select id="type_sel_id" class="form-select" name="type_option" size="1">
+                <option value="observation">Наблюдение</option>
+                <option value="memorization">Запоминание</option>
+            </select>
+            </div>
+        </div>
+        <p><button type="submit" class="btn-type-of-warm-up">Перейти к тесту</button> </p>
+    </form>
+    </div>
+
+</div>
 {% endblock %}

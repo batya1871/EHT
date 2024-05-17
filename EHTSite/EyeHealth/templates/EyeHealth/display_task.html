@@ -1,7 +1,57 @@
 {% extends 'base.html' %}
 {% block content %}
-<p>{{title}}</p>
-<p>Режим: {{type_of_training}}</p>
-<p>Сложность: {{difficulty_level}}</p>
-<p>Задание: {{task_num}}</p>
+<div class="task-container">
+    <div class="task-css">
+        <h1>{{title}}</h1>
+        <form id="task-form"
+                action="{% url 'EyeHealth:task_grade' type_of_warm_up difficulty_level task.num %}"
+                method="post">
+              {% csrf_token %}
+                  <input type="hidden" id="hidden_task" value="{{task.task_text}}">
+                  <input type="hidden" id="hidden_difficulty_level" value="{{difficulty_level}}">
+                  <input type="hidden" id="hidden_type_of_warm_up" value="{{type_of_warm_up}}">
+                  <input type="hidden" id="hidden_animatic_type" value="{{animatic_type}}">
+                  <input type="hidden" id="hidden_id_answered" value="{{is_answered}}">
+                  <input type="hidden" id="hidden_result" name = "hidden_result" value="">
+
+
+                  <div class="task-css">
+                      <label id="text-task-base-id" class="text-task-base" for="canvas-task">{%if type_of_warm_up == "observation"%}Нажимайте по фигуре, когда она загорается зеленым:
+                      {%else%}
+                      Внимательно изучите таблицу фигур:{%endif%} </label>
+                      <canvas id="canvas-task" class="canvas-task"></canvas>
+                  </div>
+                  <div class="task-controls">
+                      <div class="start-animation" id="start-animation-id">
+                          <button type="button" class="start-animation-btn" id="start-animation-btn-id">Начать</button>
+                      </div>
+                      <div class="end-animation input-hidden " id="end-animation-id">
+                          {%if type_of_warm_up == "observation"%}
+                          <div class="{% if is_answered %} input-hidden {%endif %}">
+                               <input type="submit" class="btn-default" value="{{btn_text}}"/>
+                          </div>
+                          {%else%}
+                          <div class="answer-memory">
+                              <span class="memory-task {% if is_answered %} input-hidden {%endif %}" id="memory-task-id">{{memory_task}}</span>
+                              <div class="answer-memory-field {% if is_answered %} input-hidden {%endif %}">
+                                  <input type="text" name="count-answer" class="form-control" required placeholder="Ответ" maxlength="10" id="count-answer-id">
+                                  <input type="submit" class="btn-default" value="{{btn_text}}"/>
+                              </div>
+                          </div>
+                          {%endif%}
+                          <div class="{% if not is_answered %} input-hidden {%endif %}">
+                            <a class="ref-btn-task ref-animatic-btn-nav"
+                               {% if next_task %}
+                               href="{% url 'EyeHealth:display_task' type_of_warm_up difficulty_level next_task.num %}">Следующее задание</a>
+                               {% else %}
+                               href="{% url 'EyeHealth:results' type_of_warm_up difficulty_level %}">Результаты</a>
+                               {% endif %}
+                          </div>
+                      </div>
+
+                  </div>
+          </form>
+    </div>
+</div>
+
 {% endblock %}
