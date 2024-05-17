@@ -103,13 +103,13 @@ class Result(models.Model):
         return self.usersClickCount / self.allClickCount * 100 if self.allClickCount > 0 else 0
 
     def get_grade(self):
-        percentage = self.task_block.task_set.count() / self.correct * 100
+        percentage = (self.correct / self.task_block.task_set.count() ) * 100
         grade_thresholds = {
             "easy": [(90, 5), (70, 4), (50, 3)],
             "medium": [(80, 5), (60, 4), (40, 3)],
             "hard": [(70, 5), (50, 4), (30, 3)]
         }
-        for threshold, grade in grade_thresholds[self.task_block.difficulty_level.name.split("-")[0]]:
+        for threshold, grade in grade_thresholds[self.task_block.difficulty_level.name.split("_")[0]]:
             if percentage >= threshold:
                 return grade
         return 2

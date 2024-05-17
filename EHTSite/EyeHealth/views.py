@@ -26,8 +26,8 @@ def type_selection(request):
 def display_test(request, type_of_warm_up, difficulty_level):
     context = warm_up_service.initialize_test(request.user, type_of_warm_up, difficulty_level)
     return redirect(reverse_lazy('EyeHealth:display_task',
-                                 kwargs={'type_of_warm_up': context['type_of_warm_up'],
-                                         'difficulty_level': context['difficulty_level'],
+                                 kwargs={'type_of_warm_up': type_of_warm_up,
+                                         'difficulty_level': difficulty_level,
                                          'task_num': context['task_num']}))
 
 
@@ -41,34 +41,42 @@ def display_task(request, type_of_warm_up, difficulty_level, task_num):
     else:
         context['btn_text'] = "Результаты"
 
-    if context['type_of_warm_up'] == 'memorization':
+    if type_of_warm_up == 'memorization':
         context['memory_task'] = get_normal_text(context['task'].task_text)
-    print(context['is_answered'])
     return render(request,
                   'EyeHealth/display_task.html', context)
 
 
 @login_required
 def task_grade(request, type_of_warm_up, difficulty_level, task_num):
-    mgs = "type_of_warm_up = " + type_of_warm_up
-    if type_of_warm_up == "memorization":
-        print(request.POST['count-answer'])
-        mgs += "\ncount-answer = " + request.POST['count-answer']
-    if type_of_warm_up == "observation":
-        print(request.POST['hidden_result'])
-        mgs += "\nhidden_result = " + request.POST['hidden_result']
     if type_of_warm_up == "warmUp":
-        print("Animation complete")
-        mgs += "\nAnimation complete"
-    return HttpResponse(mgs)
+        return redirect(reverse_lazy('EyeHealth:type_selection'))
+    answer = ""
+    if type_of_warm_up == "observation":
+        answer = request.POST['hidden_result']
+    if type_of_warm_up == "memorization":
+        answer = request.POST['count-answer']
+    context = warm_up_service.grade_task(type_of_warm_up, task_num,  request.user, answer)
+
+    if context['next_task'] is not None:
+        return redirect(reverse_lazy('EyeHealth:display_task',
+                                     kwargs={'type_of_warm_up': type_of_warm_up,
+                                             'difficulty_level': difficulty_level,
+                                             'task_num': context['next_task'].num}))
+    else:
+        return redirect(reverse_lazy('EyeHealth:results',
+                                     kwargs={'type_of_warm_up': type_of_warm_up,
+                                             'difficulty_level': difficulty_level}))
+
+
 
 
 @login_required
-def results(request, type_of_training, difficulty_level):
-    context = {'type_of_training': type_of_training,
-               'difficulty_level': difficulty_level,
-               'title': "Результаты"}
-
+def results(request, type_of_warm_up, difficulty_level):
+    if type_of_warm_up == "warmUp":
+        return redirect(reverse_lazy('EyeHealth:type_selection'))
+    context = warm_up_service.get_result(type_of_warm_up, difficulty_level, request.user)
+    print(context)
     return render(request, 'EyeHealth/results.html', context)
 
 

@@ -216,6 +216,7 @@ table tr {
 }
 .text-task-base{
     font-weight: bold;
+    margin:0;
 }
 .canvas-task{
     border: 1px solid #0a408f;

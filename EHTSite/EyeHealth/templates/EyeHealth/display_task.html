@@ -18,9 +18,9 @@
 
 
                   <div class="task-css">
-                      <label id="text-task-base-id" class="text-task-base" for="canvas-task">{%if type_of_warm_up == "observation"%}Нажимайте по фигуре, когда она загорается зеленым:
+                      <p id="text-task-base-id" class="text-task-base" >{%if type_of_warm_up == "observation"%}Нажимайте по фигуре, когда она загорается зеленым:
                       {%else%}
-                      Внимательно изучите таблицу фигур:{%endif%} </label>
+                      Внимательно изучите таблицу фигур:{%endif%} </p>
                       <canvas id="canvas-task" class="canvas-task"></canvas>
                   </div>
                   <div class="task-controls">
@@ -36,7 +36,7 @@
                           <div class="answer-memory">
                               <span class="memory-task {% if is_answered %} input-hidden {%endif %}" id="memory-task-id">{{memory_task}}</span>
                               <div class="answer-memory-field {% if is_answered %} input-hidden {%endif %}">
-                                  <input type="text" name="count-answer" class="form-control" required placeholder="Ответ" maxlength="10" id="count-answer-id">
+                                  <input type="number" name="count-answer" class="form-control" required placeholder="Ответ" maxlength="10" id="count-answer-id">
                                   <input type="submit" class="btn-default" value="{{btn_text}}"/>
                               </div>
                           </div>

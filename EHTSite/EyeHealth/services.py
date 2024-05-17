@@ -1,5 +1,4 @@
 from django.shortcuts import get_object_or_404
-
 from .models import *
 
 
@@ -31,6 +30,8 @@ class WarmUpService:
 
     def is_choice_exist(self, user, task):
         return Choice.objects.filter(user=user, task=task).count() > 0
+
+
 
     def initialize_test(self, user, type_of_warm_up, difficulty_level_name) -> dict:
         self.clean_users_data(user)
@@ -85,6 +86,72 @@ class WarmUpService:
         self.context['task'] = task
         return self.context
 
+    def grade_task(self, type_of_warm_up, task_num, user, answer) -> dict:
+        self.context['next_task'] = None
+        # Получаем активный блок пользователя
+        task_block = self.get_active_block(user)
+        # Берем из него все задания в список, в порядке возрастания номеров
+        task_list = task_block.task_set.order_by('num')
+        # Вносим в контекст кол-во вопросов
+        self.context['tasks_count'] = len(task_list)
+        # Получаем текущий вопрос
+        task = task_list[task_num]
+        self.context['task'] = task
+        if task_num < (len(task_list) - 1):
+            self.context['next_task'] = task_list[task_num + 1]
+
+        #Запоминаем выбор пользователя
+        choice = Choice.objects.get(user=user, task=task)
+        choice.user_answer = answer
+        choice.save()
+
+        #Получаем таблицу с результатами пользователя
+        result = Result.objects.get(user=user)
+        #Обрабатываем результаты
+        if type_of_warm_up == "observation":
+            result.allClickCount += int(task.correct_answer)
+            result.usersClickCount += int(answer)
+        if type_of_warm_up == "memorization":
+            if task.correct_answer == answer:
+                result.correct += 1
+            else:
+                result.wrong += 1
+
+        #Сохраняем результаты
+        result.save()
+
+        return self.context
+
+    def get_result(self, type_of_warm_up, difficulty_level,  user) -> dict:
+        self.context['type_of_warm_up'] = type_of_warm_up
+        # Получаем таблицу с результатами пользователя
+        result = Result.objects.get(user=user)
+        result_data = {}
+        # Формируем результаты
+        if type_of_warm_up == "observation":
+            result_data['percentage'] = round(result.get_percentage())
+            result_data['percentage_mgs'] = self.get_percentage_mgs(result.get_percentage(), difficulty_level)
+        if type_of_warm_up == "memorization":
+            result_data['correct'] = result.correct
+            result_data['wrong'] = result.wrong
+            result_data['grade'] = result.get_grade()
+            result_data['task_count'] = (result.wrong + result.correct)
+            print((result.wrong + result.correct))
+        print(result_data)
+        self.context['result_data'] = result_data
+        return self.context
+
+    def get_percentage_mgs(self, percentage, diff_level):
+        percentage_thresholds = {
+            "easy": [(90, "Отличный результат!"), (70, "Хороший результат"), (60, "В пределах нормы")],
+            "medium": [(80, "Отличный результат!"), (60, "Хороший результат"), (50, "В пределах нормы")],
+            "hard": [(70, "Отличный результат!"), (50, "Хороший результат"), (40, "В пределах нормы")]
+        }
+        for threshold, percentage_mgs in percentage_thresholds[diff_level.split("_")[0]]:
+            if percentage >= threshold:
+                return percentage_mgs
+        return "Ниже нормы"
+
 
 def get_normal_color(color):
     match color:
@@ -98,13 +165,13 @@ def get_normal_color(color):
             return "желтого "
 
 
-def get_digit_ending(type, digit):
-    if type == "row":
+def get_digit_ending(direction_type, digit):
+    if direction_type == "row":
         if digit == "3":
             return "-ей"
         else:
             return "-ой"
-    if type == "col":
+    if direction_type == "col":
         if digit == "3":
             return "-ем"
         else:
