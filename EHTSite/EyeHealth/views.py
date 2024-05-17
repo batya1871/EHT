@@ -50,9 +50,17 @@ def display_task(request, type_of_warm_up, difficulty_level, task_num):
 
 @login_required
 def task_grade(request, type_of_warm_up, difficulty_level, task_num):
+    mgs = "type_of_warm_up = " + type_of_warm_up
     if type_of_warm_up == "memorization":
         print(request.POST['count-answer'])
-    return HttpResponse(request.POST['hidden_result'])
+        mgs += "\ncount-answer = " + request.POST['count-answer']
+    if type_of_warm_up == "observation":
+        print(request.POST['hidden_result'])
+        mgs += "\nhidden_result = " + request.POST['hidden_result']
+    if type_of_warm_up == "warmUp":
+        print("Animation complete")
+        mgs += "\nAnimation complete"
+    return HttpResponse(mgs)
 
 
 @login_required
@@ -78,3 +86,7 @@ def block_fall(request):
 
 def memory(request):
     return render(request, 'EyeHealth/memory-test.html')
+
+
+def warm_up(request):
+    return render(request, 'EyeHealth/warm-up-test.html')

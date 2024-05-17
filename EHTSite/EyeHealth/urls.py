@@ -14,5 +14,6 @@ urlpatterns = [
     path('pingpong/', views.pingpong),
     path('blink/', views.blink),
     path('block-fall/', views.block_fall),
-    path('memory/', views.memory)
+    path('memory/', views.memory),
+    path('warm-up/', views.warm_up)
 ]

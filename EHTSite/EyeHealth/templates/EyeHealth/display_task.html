@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
+
+{% if type_of_warm_up != "warmUp" %}
 <div class="task-container">
     <div class="task-css">
         <h1>{{title}}</h1>
@@ -54,4 +56,10 @@
     </div>
 </div>
 
+{% else %}
+<div class="div-canvas-warm-up">
+    <input type="hidden" id="hidden_difficulty_level_warm_up" value="{{difficulty_level}}">
+    <canvas id="canvas-warm-up" class = "canvas-warm-up"></canvas>
+</div>
+{% endif %}
 {% endblock %}
