@@ -17,7 +17,8 @@ def type_selection(request):
                                      kwargs={'type_of_warm_up': request.POST['type_option'],
                                              'difficulty_level': diff_level}))
     context = {
-        'title': "Выбор типа тренировки"
+        'title': "Выбор разминки",
+        'show_nav': True
     }
     return render(request, "EyeHealth/type_selection.html", context)
 
@@ -36,6 +37,7 @@ def display_test(request, type_of_warm_up, difficulty_level):
 def display_task(request, type_of_warm_up, difficulty_level, task_num):
     context = warm_up_service.display_task(request.user, task_num)
     context['title'] = "Задание №" + str(task_num + 1)
+    context['show_nav'] = True
     if task_num < (context['tasks_count'] - 1):
         context['btn_text'] = "Следующее задание"
     else:
@@ -57,6 +59,7 @@ def task_grade(request, type_of_warm_up, difficulty_level, task_num):
     if type_of_warm_up == "memorization":
         answer = request.POST['count-answer']
     context = warm_up_service.grade_task(type_of_warm_up, task_num,  request.user, answer)
+    context['show_nav'] = True
 
     if context['next_task'] is not None:
         return redirect(reverse_lazy('EyeHealth:display_task',
@@ -76,7 +79,7 @@ def results(request, type_of_warm_up, difficulty_level):
     if type_of_warm_up == "warmUp":
         return redirect(reverse_lazy('EyeHealth:type_selection'))
     context = warm_up_service.get_result(type_of_warm_up, difficulty_level, request.user)
-    print(context)
+    context['show_nav'] = True
     return render(request, 'EyeHealth/results.html', context)
 
 

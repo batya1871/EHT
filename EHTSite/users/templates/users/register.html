@@ -2,26 +2,24 @@
 
 {% block content %}
 
-<div class="form-users-container">
-   <div class="form-users-css reg-form-size">
-      <h1 class="form-users-title">{{title}}</h1>
+<div class="form-body">
+    <div class="form-block">
+    <h1 class="form-title main-title">EYE RELAX</h1>
+    <div class="form-with-background">
+        <div class="background-block"></div>
+        <div class="foreground-block">
+            <div class="form-users-css form-padding-top">
+      <h1 class="form-title">{{title}}</h1>
       <form method="post" class="needs-validation form-users-inputs" novalidate>
          {% csrf_token %}
          <input type="hidden" name="next" value="{{ next }}"/>
          {% for f in form %}
          {% if f.label != "Пароль" and f.label != "Повтор пароля" %}
          <div class="form-obj-set">
-             {% if f.label != "Эл. почта" %}
-            <div class="form-obj-field">{{f}}</div>
-             {% else %}
-             <div class="input-group has-validation">
-                <span class="input-group-text" id="validationTooltipUsernamePrepend">@</span>
-                {{f}}
-             </div>
-             {% endif %}
-           <div class="form-error">
+            <div>{{f}}</div>
+            <div class="form-error">
                {{f.errors}}
-           </div>
+            </div>
          </div>
           {% endif %}
          {% endfor %}
@@ -44,9 +42,26 @@
           </div>
 
          <div class="form-error">{{ form.non_field_errors}}</div>
-         <p><button class="btn-default btn-users" type="submit">Регистрация</button></p>
+          <div class="btn-users-div">
+              <button class="btn-default btn-margin" type="submit">Создать аккаунт</button>
+          </div>
+          <div class="form-text-div">
+              <p class="my-form-text">Уже есть аккаунт? <a class="my-form-text-ref" href="{% url 'users:login' %}">Войти</a></p>
+          </div>
+<!--          <i class="fa-solid fa-eye-slash img-color"></i>-->
+<!--          <i class="fa-solid fa-lock img-color"></i>-->
+<!--          <i class="fa-regular fa-user img-color"></i>-->
+
+
       </form>
    </div>
+        </div>
+
+    </div>
 </div>
+</div>
+
+
+
 
 {% endblock %}

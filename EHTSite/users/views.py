@@ -9,11 +9,6 @@ from django.views.generic import CreateView, UpdateView
 
 from .forms import LoginUserForm, RegisterUserForm, ProfileUserForm, UserPasswordChangeForm
 
-menu_list = [
-    {'ref': 'training:training_session', 'content': 'Выбор режима'},
-    {'ref': 'training:statistic', 'content': 'Статистика пользователя'},
-    {'ref': 'training:settings', 'content': 'Настройки'}
-]
 
 
 class LoginUser(LoginView):
@@ -21,45 +16,10 @@ class LoginUser(LoginView):
     template_name = 'users/login.html'
     extra_context = {"title": 'Авторизация'}
 
-    # def get_success_url(self):
-    #     return reverse_lazy('training:menu')
 
-
-# def login_user(request):
-#     error_auth_msg = ""
-#     if request.method == 'POST':
-#         form = LoginUserForm(request.POST)
-#         if form.is_valid():
-#             cd = form.cleaned_data
-#             user = authenticate(request, username=cd['username'],
-#                                 password=cd['password'])
-#             if user and user.is_active:
-#                 login(request, user)
-#                 return HttpResponseRedirect(reverse_lazy('training:menu'))
-#             else:
-#                 error_auth_msg = "Неправильный логин или пароль"
-#     else:
-#         form = LoginUserForm()
-#     return render(request, 'users/login.html', {'form': form, 'error_auth_msg': error_auth_msg, 'is_users_app': True})
-#
-#
 def logout_user(request):
     logout(request)
     return HttpResponseRedirect(reverse_lazy('users:login'))
-
-
-#
-# def register(request):
-#     if request.method == 'POST':
-#         form = RegisterUserForm(request.POST)
-#         if form.is_valid():
-#             user = form.save(commit=False)
-#             user.set_password(form.cleaned_data['password'])
-#             user.save()
-#             return HttpResponseRedirect(reverse_lazy('users:login'))
-#     else:
-#         form = RegisterUserForm()
-#     return render(request, 'users/register.html', {'form': form})
 
 
 class RegisterUser(CreateView):
@@ -74,8 +34,8 @@ class ProfileUser(LoginRequiredMixin, UpdateView):
     form_class = ProfileUserForm
     template_name = "users/profile.html"
     extra_context = {
-        'title': 'Изменение профиля',
-        'menu_list': menu_list,
+        'title': 'Профиль',
+        'show_nav': True
     }
 
     def get_success_url(self):
@@ -90,4 +50,4 @@ class UserPasswordChange(LoginRequiredMixin, PasswordChangeView):
     success_url = reverse_lazy("users:password_change_done")
     template_name = "users/password_change_form.html"
     extra_context = {'title': 'Изменение пароля',
-                     'menu_list': menu_list}
+                     'show_nav': True}

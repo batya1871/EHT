@@ -128,7 +128,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'EyeHealth.MyUser'
 
 #Назначаем базовый шаблон для входа
-LOGIN_REDIRECT_URL = 'training:training_session'
+LOGIN_REDIRECT_URL = 'EyeHealth:type_selection'
 
 #Куда переходить если не авторизован
 LOGIN_URL = 'users:login'

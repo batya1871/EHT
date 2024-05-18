@@ -2,35 +2,42 @@
 
 {% block content %}
 
-<div class="form-users-container">
-   <div class="form-users-css">
-      <div class="title-profile">
-          <h1>{{title}}</h1>
-      </div>
-       <div class="inside-profile-container">
-      <form method="post" class="needs-validation form-users-inputs" novalidate>
-         {% csrf_token %}
-         <input type="hidden" name="next" value="{{ next }}"/>
-
-         {% for f in form %}
-
-         <div class="form-obj-set profile-set">
-            <label class="form-label profile-label" for="{{f.id_for_label}}">{{f.label}}: </label>
-            <div class="form-obj-field">{{f}}</div>
-           <div class="form-error">
-               {{f.errors}}
-           </div>
-         </div>
-
-         {% endfor %}
-         <div class="form-error">{{ form.non_field_errors}}</div>
-         <button class="btn-default btn-users" type="submit">Сохранить</button>
-      </form>
-           </div>
-      <div class="form-users-refs ref-position-profile">
-          <a class="ref-btn-users ref-animatic-btn-users" href="{% url 'users:password_change' %}">Перейти к изменению пароля</a>
-      </div>
-   </div>
+<div class="form-body with-nav">
+    <div class="form-block login-block">
+    <div class="form-with-background">
+        <div class="background-block login-block-part"></div>
+        <div class="foreground-block login-block-part foreground-block-profil">
+            <div class="form-users-css form-padding-top">
+                <h1 class="form-title">{{title}}</h1>
+                    <form method="post" class="needs-validation form-users-inputs" novalidate>
+                         {% csrf_token %}
+                         <input type="hidden" name="next" value="{{ next }}"/>
+                         {% for f in form %}
+                        <div class="form-obj-set profile-set">
+                            <label class="form-label profile-label
+                            {% if f.label == 'Логин' %} login-label {% else %}
+                            {% if f.label == 'Имя' %} name-label {% endif %}
+                            {% endif %} " for="{{f.id_for_label}}">{{f.label}}: </label>
+                            <div class="form-obj-field">{{f}}</div>
+                            <div class="form-error">
+                                {{f.errors}}
+                            </div>
+                        </div>
+                         {% endfor %}
+                         <div class="form-error">{{ form.non_field_errors}}</div>
+                          <div class="btn-users-div">
+                              <button class="btn-default btn-margin" type="submit">Сохранить</button>
+                          </div>
+                          <div class="form-text-div">
+                              <p class="my-form-text"><a class="my-form-text-ref" href="{% url 'users:password_change' %}">Перейти к изменению пароля</a></p>
+                          </div>
+                      </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 </div>
+
+
 
 {% endblock %}

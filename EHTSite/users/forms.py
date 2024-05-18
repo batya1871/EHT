@@ -4,10 +4,10 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, Pass
 
 
 class LoginUserForm(AuthenticationForm):
-    username = forms.CharField(label="Логин",
+    username = forms.CharField(label="fa-regular fa-user img-color",
                                widget=forms.TextInput(attrs={'class': 'form-control', 'required': True,
                                                              'placeholder': 'Логин'}))
-    password = forms.CharField(label="Пароль",
+    password = forms.CharField(label="fa-solid fa-lock img-color",
                                widget=forms.PasswordInput(attrs={'class': 'form-control', 'required': True,
                                                                  'placeholder': 'Пароль'}))
 

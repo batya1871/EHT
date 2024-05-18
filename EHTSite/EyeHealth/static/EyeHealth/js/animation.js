@@ -39,10 +39,11 @@ if (canvas != null){
     }
     else{
         // Получаем кнопку по ее id
-        var button = document.getElementById("start-animation-btn-id");
+        var button_animation = document.getElementById("start-animation-btn-id");
         // Добавляем обработчик события "click" к кнопке
-        button.addEventListener("click", function() {
-
+        console.log("ЖДЕМ КНОПКУ");
+        button_animation.addEventListener("click", function() {
+            console.log("НАЖАТА");
             start_animation_div.classList.add("input-hidden");
             //Делаем разбивку на два разных режима
             switch (type_of_warm_up){

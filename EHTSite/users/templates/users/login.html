@@ -3,32 +3,53 @@
 {% block content %}
 
 
-<div class="form-users-container">
-   <div class="form-users-css">
-      <h1 class="form-users-title">{{title}}</h1>
+<div class="form-body">
+    <div class="form-block login-block">
+    <div class="form-with-background">
+        <div class="background-block login-block-part"></div>
+        <div class="foreground-block login-block-part">
+            <div class="form-users-css form-padding-top">
+      <h1 class="form-title login-title">EYE RELAX</h1>
+      <div class="form-text-div">
+        <p class="my-form-text after-title">Поможем вашим усталым глазам отдохнуть и расслабиться после длительной работы за экраном.</p>
+      </div>
       <form method="post" class="needs-validation form-users-inputs" novalidate>
          {% csrf_token %}
          <input type="hidden" name="next" value="{{ next }}"/>
          {% for f in form %}
-         <div class="form-obj-set">
-            <div class="form-obj-field">{{f}}</div>
-           <div class="form-error">
+         <div class="form-obj-set login-obj-set">
+             <div class="login-input">
+                 <i class="{{f.label}}"></i>
+                 {{f}}
+             </div>
+
+            <div class="form-error">
                {{f.errors}}
-           </div>
+            </div>
          </div>
          {% endfor %}
+
          <div class="form-error">{{ form.non_field_errors}}</div>
-         <p><button class="btn-default btn-users" type="submit">Войти</button></p>
+          <div class="btn-users-div login-btn-div">
+              <button class="btn-default btn-margin" type="submit">Войти</button>
+          </div>
+          <div class="form-text-div login-to-reg ">
+              <p class=" my-form-text">Еще нет аккаунта? <a class="my-form-text-ref" href="{% url 'users:register' %}"> Создать</a></p>
+              <p class=" my-form-text"><a class="my-form-text-ref" href="{% url 'users:password_reset' %}">Забыли пароль?</a></p>
+          </div>
+<!--          <i class="fa-solid fa-eye-slash img-color"></i>-->
+<!--          <i class="fa-solid fa-lock img-color"></i>-->
+<!--          <i class="fa-regular fa-user img-color"></i>-->
+
+
       </form>
-      <div class="form-users-refs">
-         <div class="ref-users-left">
-              <a class="ref-btn-users ref-animatic-btn-users" href="{% url 'users:register'  %}">Регистрация</a>
-          </div>
-         <div class="ref-users-right">
-              <a class="ref-btn-users ref-animatic-btn-users" href="{% url 'users:password_reset' %}">Забыли пароль?</a>
-          </div>
-      </div>
    </div>
+        </div>
+
+    </div>
 </div>
+</div>
+
+
 
 {% endblock %}
