@@ -233,7 +233,9 @@ table tr {
     flex-direction: column;
     margin-bottom: 5px;
 }
-
+.memory-task-align{
+    align-items:center;
+}
 .text-task-base{
     margin:0;
     margin-bottom: 1%;

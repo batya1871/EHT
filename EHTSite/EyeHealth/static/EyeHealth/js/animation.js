@@ -434,10 +434,16 @@ if (canvas != null){
                         case "block-fall":{
                             ctx.strokeStyle = "#9682C4"; // Цвет контура
                             ctx.fillStyle = "#0CA725"; // Цвет заливки
-                            var numBlocks = 4; // Количество квадратов
+                            var numBlocks = -1; // Количество квадратов
                             var directions = ["leftToRight", "rightToLeft", "topToBottom", "bottomToTop"]; // Возможные направления движения
                             // Случайный выбор направления для всех квадратов
                             var randomDirectionIndex = Math.floor(Math.random() * directions.length);
+                            if (randomDirectionIndex <= 1){
+                                numBlocks = 4; // Количество квадратов
+                            }
+                            else {
+                                numBlocks = 8;
+                            }
                             var direction = directions[randomDirectionIndex];
                             var blockSizeVertDirection = Math.floor(height / (numBlocks));
                             var blockSizeHorDirection = Math.floor(width / (numBlocks));
@@ -545,7 +551,7 @@ if (canvas != null){
 
                             var blocks = []; // Массив для хранения экземпляров квадратов
                             var uniqueSpeed = [];
-                            var speedValues = [2, 3, 4, 5];
+                            var speedValues = [1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5];
                             for (let i = 0; i < numBlocks; i++) {
                                 speed = speedValues[Math.floor(Math.random() * (speedValues.length))];
                                 while(is_speed_exist(speed, uniqueSpeed)){
