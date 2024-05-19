@@ -129,7 +129,13 @@ class WarmUpService:
         result_data = {}
         # Формируем результаты
         if type_of_warm_up == "observation":
-            result_data['percentage'] = round(result.get_percentage())
+            task_block = self.get_active_block(user)
+            # Берем из него все задания в список, в порядке возрастания номеров
+            task_list = task_block.task_set.order_by('num')
+            commonClick = 0
+            for task in task_list:
+                commonClick += int(task.correct_answer)
+            result_data['percentage'] = round(result.get_percentage(commonClick))
             result_data['percentage_mgs'] = self.get_percentage_mgs(result.get_percentage(), difficulty_level)
         if type_of_warm_up == "memorization":
             result_data['correct'] = result.correct
@@ -201,13 +207,13 @@ def get_normal_text(task_text):
             result_text += 'было фигур типа "' + task_text_block[0] + '" '
             result_text += get_normal_color(task_text_block[1]) + "цвета "
             if task_text_block[3] == "row":
-                if task_text_block[4] == "2":
+                if task_text_block[4] == "1":
                     result_text += "во " + str((int(task_text_block[4]) + 1)) + "-ой строке?"
                 else:
                     result_text += "в " + str((int(task_text_block[4]) + 1)) + get_digit_ending(task_text_block[3],
                                                                                            str((int(task_text_block[4]) + 1))) + " строке?"
             if task_text_block[3] == "col":
-                if task_text_block[4] == "2":
+                if task_text_block[4] == "1":
                     result_text += "во " + str((int(task_text_block[4]) + 1)) + "-ом столбце?"
                 else:
                     result_text += "в " + str((int(task_text_block[4]) + 1)) + get_digit_ending(task_text_block[3],

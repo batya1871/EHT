@@ -40,7 +40,7 @@ if (canvas_warm_up != null) {
     var totalAnimations = 14;
 
     // Радиус точки
-    var pointRadius = 10;
+    var pointRadius = 30;
 
     // Начальная позиция точки (центр канваса)
     var point = {
@@ -56,7 +56,7 @@ if (canvas_warm_up != null) {
         ctx.clearRect(0, 0, canvas_warm_up.width, canvas_warm_up.height); // Очищаем канвас перед каждой отрисовкой
         ctx.beginPath();
         ctx.arc(x, y, radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'blue';
+        ctx.fillStyle = '#6f5a9a';
         ctx.fill();
         ctx.closePath();
     }

@@ -77,7 +77,7 @@ if (canvas_memory != null){
             this.shapes = []; // Массив фигур
             this.margin = margin;
             this.NUM_ROWS = 4;
-            this.NUM_COLS = 4;
+            this.NUM_COLS = 6;
             this.shapesType = ['квадрат', 'круг', 'треугольник', 'звезда'];
             this.colors = ['red', 'blue', 'green', 'yellow'];
         }
@@ -136,8 +136,8 @@ if (canvas_memory != null){
             shapesWithoutCords = shuffleArray(shapesWithoutCords);
             var indexOfShape = 0;
             var cellSize = this.calculateCellSize();
-            for (let row = 0; row < 4; row++) {
-                for (let col = 0; col < 4; col++) {
+            for (let row = 0; row < this.NUM_ROWS; row++) {
+                for (let col = 0; col < this.NUM_COLS; col++) {
                     var x = col * (cellSize + this.margin) + this.margin;
                     var y = row * (cellSize + this.margin) + this.margin;
                     this.shapes.push(new Shape(shapesWithoutCords[indexOfShape].type,shapesWithoutCords[indexOfShape].color, x, y, cellSize));
@@ -161,8 +161,8 @@ if (canvas_memory != null){
         shapesWithoutCords = shuffleArray(shapesWithoutCords);
         var indexOfShape = 0;
         const cellSize = this.calculateCellSize();
-        for (let row = 0; row < 4; row++) {
-            for (let col = 0; col < 4; col++) {
+        for (let row = 0; row < this.NUM_ROWS; row++) {
+            for (let col = 0; col < this.NUM_COLS; col++) {
                 var x = col * (cellSize + this.margin) + this.margin;
                 var y = row * (cellSize + this.margin) + this.margin;
                 this.shapes.push(new Shape(shapesWithoutCords[indexOfShape].type, shapesWithoutCords[indexOfShape].color, x, y, cellSize));
@@ -194,7 +194,7 @@ if (canvas_memory != null){
         }
 
         // Дополняем оставшиеся ячейки случайными фигурами других типов и цветов
-        for (var i = 0; i < (4 * 4) - count; i++) {
+        for (var i = 0; i < (this.NUM_ROWS * this.NUM_COLS) - count; i++) {
             shapesWithoutCords.push(new Shape(this.getRandomType(), this.getRandomColor()));
         }
 
@@ -204,8 +204,8 @@ if (canvas_memory != null){
         // Распределяем фигуры заданного типа и цвета между оставшимися случайными
         var indexOfShape = 0;
         var cellSize = this.calculateCellSize();
-        for (let row = 0; row < 4; row++) {
-            for (let col = 0; col < 4; col++) {
+        for (let row = 0; row < this.NUM_ROWS; row++) {
+            for (let col = 0; col < this.NUM_COLS; col++) {
                 var x = col * (cellSize + this.margin) + this.margin;
                 var y = row * (cellSize + this.margin) + this.margin;
                 this.shapes.push(new Shape(shapesWithoutCords[indexOfShape].type, shapesWithoutCords[indexOfShape].color, x, y, cellSize));
@@ -215,12 +215,12 @@ if (canvas_memory != null){
     }
 
     generateShapesByTypeAndColorAndRow(type, color, count, customRow) {
-        if (count > 4) {
-            console.error('Количество фигур не может быть больше 4.');
+        if (count > this.NUM_ROWS) {
+            console.error('Количество фигур не может быть больше ' + this.NUM_ROWS);
             return;
         }
-        if (customRow > 3) {
-            console.error('Индекс строки не может быть больше 3.');
+        if (customRow > this.NUM_ROWS - 1) {
+            console.error('Индекс строки не может быть больше ' + (this.NUM_ROWS - 1));
             return;
         }
 
@@ -236,8 +236,8 @@ if (canvas_memory != null){
             shapesWithoutCordsRow.push(new Shape(type, color));
         }
         var rowCount = shapesWithoutCordsRow.length;
-        if (rowCount < 4){
-            for (var i = 0; i < (4 - rowCount); i++ ){
+        if (rowCount < this.NUM_COLS){
+            for (var i = 0; i < (this.NUM_COLS - rowCount); i++ ){
                 var randomType = this.getRandomType();
                 var randomColor = this.getRandomColor();
                 while (randomType == type && randomColor == color){
@@ -249,8 +249,9 @@ if (canvas_memory != null){
         }
         shapesWithoutCordsRow = shuffleArray(shapesWithoutCordsRow);
         var cellSize = this.calculateCellSize();
-        for (let row = 0; row < 4; row++) {
-            for (let col = 0; col < 4; col++) {
+        console.log(shapesWithoutCordsRow);
+        for (let row = 0; row < this.NUM_ROWS; row++) {
+            for (let col = 0; col < this.NUM_COLS; col++) {
                 var x = col * (cellSize + this.margin) + this.margin;
                 var y = row * (cellSize + this.margin) + this.margin;
                 if (row != customRow){
@@ -264,12 +265,12 @@ if (canvas_memory != null){
     }
 
     generateShapesByTypeAndColorAndCol(type, color, count, customCol) {
-        if (count > 4) {
-            console.error('Количество фигур не может быть больше 4.');
+        if (count > this.NUM_COLS) {
+            console.error('Количество фигур не может быть больше ' + this.NUM_COLS);
             return;
         }
-        if (customCol > 3) {
-            console.error('Индекс столбца не может быть больше 3.');
+        if (customCol > this.NUM_COLS - 1) {
+            console.error('Индекс столбца не может быть больше ' + (this.NUM_COLS - 1));
             return;
         }
 
@@ -285,8 +286,8 @@ if (canvas_memory != null){
             shapesWithoutCordsCol.push(new Shape(type, color));
         }
         var colCount = shapesWithoutCordsCol.length;
-        if (colCount < 4){
-            for (var i = 0; i < (4 - colCount); i++ ){
+        if (colCount < this.NUM_ROWS){
+            for (var i = 0; i < (this.NUM_ROWS - colCount); i++ ){
                 var randomType = this.getRandomType();
                 var randomColor = this.getRandomColor();
                 while (randomType == type && randomColor == color){
@@ -297,9 +298,10 @@ if (canvas_memory != null){
             }
         }
         shapesWithoutCordsCol = shuffleArray(shapesWithoutCordsCol);
+        console.log(shapesWithoutCordsCol);
         var cellSize = this.calculateCellSize();
-        for (let col = 0; col < 4; col++) {
-            for (let row = 0; row < 4; row++) {
+        for (let col = 0; col < this.NUM_COLS; col++) {
+            for (let row = 0; row < this.NUM_ROWS; row++) {
                 var x = col * (cellSize + this.margin) + this.margin;
                 var y = row * (cellSize + this.margin) + this.margin;
                 if (col != customCol){

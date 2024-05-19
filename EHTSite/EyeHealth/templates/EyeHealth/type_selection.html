@@ -1,31 +1,40 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="form-container">
-    <div class="type-of-warm-up-div">
-        <form method="post">
-        {% csrf_token %}
-        <div class="form-type-of-warm-up-header"><h2>Начать разминку</h2></div>
-        <div class="form-type-of-warm-up-body">
-            <div class="form-type-of-warm-up-field">
-                <label class="form-label" for="dif_sel_id">Уровень сложности:</label>
-            <select id="dif_sel_id" class="form-select" name="diff_option" size="1">
-                <option value="easy">Легкий</option>
-                <option value="medium">Средний</option>
-                <option value="hard">Сложный</option>
-            </select>
-            </div>
-            <div class="form-type-of-warm-up-field">
-                 <label class="form-label" for="type_sel_id">Тип разминки:</label>
-            <select id="type_sel_id" class="form-select" name="type_option" size="1">
-                <option value="warmUp">Зарядка</option>
-                <option value="observation">Наблюдение</option>
-                <option value="memorization">Запоминание</option>
-            </select>
+
+<div class="form-body with-nav">
+    <div class="form-block login-block">
+        <div class="form-with-background">
+            <div class="background-block login-block-part"></div>
+            <div class="foreground-block login-block-part sell-block">
+                <div class="form-users-css form-padding-top-selection">
+                      <h1 class="form-title login-title">Начать разминку</h1>
+                      <form method="post" class="form-users-inputs" >
+                         {% csrf_token %}
+                          <div class="selections">
+                              <div class="form-type-of-warm-up-field diff_field">
+                                 <label class="form-label level-marg" for="dif_sel_id">Уровень сложности:</label>
+                                 <select id="dif_sel_id" class="form-select" name="diff_option" size="1">
+                                     <option value="easy">Легкий</option>
+                                     <option value="medium">Средний</option>
+                                     <option value="hard">Сложный</option>
+                                 </select>
+                             </div>
+                              <div class="form-type-of-warm-up-field">
+                                 <label class="form-label diff-marg" for="type_sel_id">Тип разминки:</label>
+                                 <select id="type_sel_id" class="form-select" name="type_option" size="1">
+                                    <option value="warmUp">Зарядка</option>
+                                    <option value="observation">Наблюдение</option>
+                                    <option value="memorization">Запоминание</option>
+                                 </select>
+                              </div>
+                          </div>
+                         <p><button type="submit" class="btn-default">Перейти к тесту</button> </p>
+                      </form>
+                </div>
             </div>
         </div>
-        <p><button type="submit" class="btn-type-of-warm-up">Перейти к тесту</button> </p>
-    </form>
     </div>
-
 </div>
+
+
 {% endblock %}

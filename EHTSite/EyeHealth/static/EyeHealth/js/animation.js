@@ -85,6 +85,8 @@ if (canvas != null){
                         case "pingpong":{
                             var xSpeed = -1;
                             var ySpeed = -1;
+                            ctx.strokeStyle = "#9682C4"; // Цвет контура
+                            ctx.fillStyle = "#0CA725"; // Цвет заливки
                             //Скорость движения меча в зависимости от уровня сложности
                             console.log("Уровень сложности = " +difficulty_level);
                             switch (difficulty_level){
@@ -202,11 +204,11 @@ if (canvas != null){
                                         ball.clickCount++;
                                         console.log("КЛИК");
                                         ball.clickable = false;
-                                        // Изменяем цвет круга на мгновение на красный
-                                        ctx.fillStyle = "red";
+                                        // Изменяем цвет круга на мгновение
+                                        ctx.fillStyle = "#026512";
                                         ball.draw();
                                         setTimeout(function () {
-                                            ctx.fillStyle = "black";
+                                            ctx.fillStyle = "#0CA725";
                                         }, 100); // Меняем цвет обратно через 100 миллисекунд
                                     }
                                 }
@@ -243,6 +245,8 @@ if (canvas != null){
                             var minSpeed = -200;
                             var blink_intervals = 700; //Сколько прыгает (харкодится внизу)
                             var blink_speed = -1;
+                            ctx.strokeStyle = "#9682C4"; // Цвет контура
+                            ctx.fillStyle = "#0CA725"; // Цвет заливки
                             //Скорость прыжков в зависимости от уровня сложности
                             switch (difficulty_level){
                                 case "easy":{
@@ -378,10 +382,10 @@ if (canvas != null){
                                 if (ball.clickable) {
                                     var mouseX = event.clientX - canvas.getBoundingClientRect().left;
                                     var mouseY = event.clientY - canvas.getBoundingClientRect().top;
-                                    ctx.fillStyle = "red";
+                                    ctx.fillStyle = "#026512";
                                         ball.draw();
                                         setTimeout(function () {
-                                            ctx.fillStyle = "black";
+                                            ctx.fillStyle = "#0CA725";
                                         }, 100); // Меняем цвет обратно через 100 миллисекунд
 
                                     if (Math.sqrt((mouseX - ball.x) ** 2 + (mouseY - ball.y) ** 2) <= ball.radius  && ball.clickable && ball.clickCount < ball.clickLimit) {
@@ -428,15 +432,15 @@ if (canvas != null){
                             break;
                         }
                         case "block-fall":{
-                            ctx.strokeStyle = "blue"; // Цвет контура
-                            ctx.fillStyle = "blue"; // Цвет заливки
+                            ctx.strokeStyle = "#9682C4"; // Цвет контура
+                            ctx.fillStyle = "#0CA725"; // Цвет заливки
                             var numBlocks = 4; // Количество квадратов
                             var directions = ["leftToRight", "rightToLeft", "topToBottom", "bottomToTop"]; // Возможные направления движения
                             // Случайный выбор направления для всех квадратов
                             var randomDirectionIndex = Math.floor(Math.random() * directions.length);
                             var direction = directions[randomDirectionIndex];
-                            var blockSizeVertDirection = Math.floor(width / (numBlocks));
-                            var blockSizeHorDirection = Math.floor(height / (numBlocks));
+                            var blockSizeVertDirection = Math.floor(height / (numBlocks));
+                            var blockSizeHorDirection = Math.floor(width / (numBlocks));
                             var clickCount = 0;//Кол-во правильных нажатий
                             var showCount = 0; //Кол-во показываний заполненной фигуры
                             var blocks_speed = -1; //Скорость движения блоков (скорость смены кадров)
@@ -566,8 +570,8 @@ if (canvas != null){
                             // Функция для случайного выбора квадрата для заполнения
                             function fillRandomBlock() {
                                 if (showCount < clickLimit) {
-                                    ctx.strokeStyle = "blue"; // Цвет контура
-                                    ctx.fillStyle = "blue"; // Цвет заливки
+                                    ctx.strokeStyle = "#9682C4"; // Цвет контура
+                                    ctx.fillStyle = "#0CA725"; // Цвет заливки
                                     showCount++;
                                     var randomIndex = Math.floor(Math.random() * blocks.length);
                                     var randomBlock = blocks[randomIndex];
@@ -578,8 +582,8 @@ if (canvas != null){
                                         randomBlock.isFilled = false;
                                         randomBlock.reset();
                                         canvas.removeEventListener("click", clickHandler);
-                                        ctx.strokeStyle = "blue"; // Цвет контура
-                                        ctx.fillStyle = "blue"; // Цвет заливки
+                                        ctx.strokeStyle = "#9682C4"; // Цвет контура
+                                        ctx.fillStyle = "#0CA725"; // Цвет заливки
                                         console.log("Кол-во показываний = " + showCount);
                                         console.log("Кол-во верных кликов = " + clickCount);
                                     }, FilledTime);
@@ -598,11 +602,11 @@ if (canvas != null){
                                             console.log("КЛИК");
                                             block.isClicked = true;
                                             clickCount++;
-                                            // Изменяем цвет квадрата на мгновение на красный
-                                            ctx.fillStyle = "red";
+                                            // Изменяем цвет квадрата на мгновение
+                                            ctx.fillStyle = "#026512";
                                             block.draw();
                                             setTimeout(function () {
-                                                 ctx.fillStyle = "blue"; // Цвет заливки
+                                                 ctx.fillStyle = "#0CA725"; // Цвет заливки
                                             }, 200); // Меняем цвет обратно через 100 миллисекунд
                                         }
                                     }
@@ -653,377 +657,438 @@ if (canvas != null){
                     }
                     break;
                 }
-                case "memorization":{
-                    //Время демонстрации таблицы
-                    var display_time = -1;
-                    switch (difficulty_level){
-                        case "easy":{
-                            display_time = 15000;
-                            break;
+                    case "memorization":{
+                        //Время демонстрации таблицы
+                        var display_time = -1;
+                        switch (difficulty_level){
+                            case "easy":{
+                                display_time = 15000;
+                                break;
+                            }
+                            case "medium":{
+                                display_time = 10000;
+                                break;
+                            }
+                            case "hard":{
+                                display_time = 5000;
+                                break;
+                            }
                         }
-                        case "medium":{
-                            display_time = 10000;
-                            break;
+
+                        function shuffleArray(array) {
+                            for (let i = array.length - 1; i > 0; i--) {
+                                const j = Math.floor(Math.random() * (i + 1));
+                                [array[i], array[j]] = [array[j], array[i]];
+                            }
+                            return array;
                         }
-                        case "hard":{
-                            display_time = 5000;
-                            break;
-                        }
-                    }
-
-                    function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-                    class Shape {
-                        constructor(type, color, x=0, y=0, size=0) {
-                            this.type = type; // тип фигуры
-                            this.color = color; // цвет фигуры
-                            this.x = x; // координата x
-                            this.y = y; // координата y
-                            this.size = size; // размер фигуры
-                        }
-                        draw(ctx) {
-                            // Рисуем фигуру в зависимости от типа
-                            ctx.beginPath();
-                            switch (this.type) {
-                                case 'квадрат':
-                                    ctx.rect(this.x, this.y, this.size, this.size);
-                                    break;
-                                case 'круг':
-                                    ctx.arc(this.x + this.size / 2, this.y + this.size / 2, this.size / 2, 0, 2 * Math.PI);
-                                    break;
-                                case 'треугольник':
-
-
-                                    ctx.beginPath();
-                                    ctx.moveTo(this.x + this.size / 2, this.y); // Вершина
-                                    ctx.lineTo(this.x, this.y + this.size); // Левый нижний угол
-                                    ctx.lineTo(this.x + this.size, this.y + this.size); // Правый нижний угол
-                                    ctx.closePath();
-                                    break;
-                                case 'звезда':
-                                    const spikes = 5;
-                                    const step = Math.PI / spikes;
-                                    let rot = Math.PI / 2 * 3;
-                                    let x = this.x + this.size / 2;
-                                    let y = this.y + this.size / 2;
-                                    let outerRadius = this.size / 2;
-                                    let innerRadius = outerRadius / 2;
-                                    ctx.moveTo(x, y - outerRadius);
-                                    for (let i = 0; i < spikes; i++) {
-                                        x = this.x + this.size / 2 + Math.cos(rot) * outerRadius;
-                                        y = this.y + this.size / 2 + Math.sin(rot) * outerRadius;
-                                        ctx.lineTo(x, y);
-                                        rot += step;
-
-                                        x = this.x + this.size / 2 + Math.cos(rot) * innerRadius;
-                                        y = this.y + this.size / 2 + Math.sin(rot) * innerRadius;
-                                        ctx.lineTo(x, y);
-                                        rot += step;
+                        class Shape {
+                            constructor(type, color, x=0, y=0, size=0) {
+                                this.type = type; // тип фигуры
+                                console.log("color =" + color);
+                                var colors = {
+                                        'red': '#ED2020',
+                                        'blue': '#2B4DFC',
+                                        'green': '#0CA725',
+                                        'yellow': '#F2DC18'
                                     }
-                                    ctx.lineTo(this.x + this.size / 2, this.y + this.size / 2 - outerRadius);
-                                    ctx.closePath();
-                                    break;
-                                default:
-                                    console.error('Неизвестный тип фигуры:', this.type);
+                                if (colors[color] != null)
+                                {
+                                    this.color = colors[color]; // цвет фигуры
+                                }
+                                else{
+                                    this.color = color;
+                                }
+                                console.log(this.color);
+                                this.x = x; // координата x
+                                this.y = y; // координата y
+                                this.size = size; // размер фигуры
+                            }
+                            draw(ctx) {
+                                // Рисуем фигуру в зависимости от типа
+                                ctx.beginPath();
+                                switch (this.type) {
+                                    case 'квадрат':
+                                        ctx.rect(this.x, this.y, this.size, this.size);
+                                        break;
+                                    case 'круг':
+                                        ctx.arc(this.x + this.size / 2, this.y + this.size / 2, this.size / 2, 0, 2 * Math.PI);
+                                        break;
+                                    case 'треугольник':
+
+
+                                        ctx.beginPath();
+                                        ctx.moveTo(this.x + this.size / 2, this.y); // Вершина
+                                        ctx.lineTo(this.x, this.y + this.size); // Левый нижний угол
+                                        ctx.lineTo(this.x + this.size, this.y + this.size); // Правый нижний угол
+                                        ctx.closePath();
+                                        break;
+                                    case 'звезда':
+                                        const spikes = 5;
+                                        const step = Math.PI / spikes;
+                                        let rot = Math.PI / 2 * 3;
+                                        let x = this.x + this.size / 2;
+                                        let y = this.y + this.size / 2;
+                                        let outerRadius = this.size / 2;
+                                        let innerRadius = outerRadius / 2;
+                                        ctx.moveTo(x, y - outerRadius);
+                                        for (let i = 0; i < spikes; i++) {
+                                            x = this.x + this.size / 2 + Math.cos(rot) * outerRadius;
+                                            y = this.y + this.size / 2 + Math.sin(rot) * outerRadius;
+                                            ctx.lineTo(x, y);
+                                            rot += step;
+
+                                            x = this.x + this.size / 2 + Math.cos(rot) * innerRadius;
+                                            y = this.y + this.size / 2 + Math.sin(rot) * innerRadius;
+                                            ctx.lineTo(x, y);
+                                            rot += step;
+                                        }
+                                        ctx.lineTo(this.x + this.size / 2, this.y + this.size / 2 - outerRadius);
+                                        ctx.closePath();
+                                        break;
+                                    default:
+                                        console.error('Неизвестный тип фигуры:', this.type);
+                                        return;
+                                }
+                                ctx.fillStyle = this.color;
+                                ctx.fill();
+                            }
+                        }
+
+                            class ShapeTable {
+                                constructor(canvas, margin, numRows, numCols) {
+                                    this.canvas = canvas;
+                                    this.ctx = canvas.getContext("2d");
+                                    this.shapes = []; // Массив фигур
+                                    this.margin = margin;
+                                    this.NUM_ROWS = numRows;
+                                    this.NUM_COLS = numCols;
+                                    this.shapesType = ['квадрат', 'круг', 'треугольник', 'звезда'];
+                                    this.colors = {
+                                        'red': '#ED2020',
+                                        'blue': '#2B4DFC',
+                                        'green': '#0CA725',
+                                        'yellow': '#F2DC18'
+                                    }
+                                    this.adjustCanvasSize();
+                                }
+                                // Вспомогательная функция для генерации случайного типа фигуры
+                                getRandomType() {
+                                    return this.shapesType[Math.floor(Math.random() * this.shapesType.length)];
+                                }
+
+                                // Вспомогательная функция для генерации случайного цвета
+//                                getRandomColor() {
+//                                    const keys = Object.keys(this.colors);
+//                                    const randomKey = keys[Math.floor(Math.random() * keys.length)];
+//                                    const randomElement = this.colors[randomKey]
+//                                    return randomElement;
+//                                }
+                                 getRandomColor() {
+                                    const keys = Object.keys(this.colors);
+                                    const randomKey = keys[Math.floor(Math.random() * keys.length)];
+                                    return randomKey;
+                                }
+
+                                // Вспомогательная функция для проверки наличия типа в массиве shapesType
+                                isValidType(type) {
+                                    return this.shapesType.includes(type);
+                                }
+
+                                // Вспомогательная функция для проверки наличия цвета в массиве colors
+                                isValidColor(color) {
+                                    return Object.keys(this.colors).includes(color);
+                                }
+
+                               // Вспомогательная функция для расчета размера ячейки
+                                calculateCellSize() {
+                                    const cellWidth = (this.canvas.width - this.margin * (this.NUM_COLS + 1)) / this.NUM_COLS;
+                                    const cellHeight = (this.canvas.height - this.margin * (this.NUM_ROWS + 1)) / this.NUM_ROWS;
+                                    return Math.min(cellWidth, cellHeight);
+                                }
+
+                                // Функция для подгонки размера канваса
+                                adjustCanvasSize() {
+                                    const cellSize = this.calculateCellSize();
+
+                                    const newCanvasWidth = this.NUM_COLS * cellSize + this.margin * (this.NUM_COLS + 1);
+                                    const newCanvasHeight = this.NUM_ROWS * cellSize + this.margin * (this.NUM_ROWS + 1);
+
+                                    this.canvas.width = newCanvasWidth;
+                                    this.canvas.height = newCanvasHeight;
+                                }
+
+
+                                // Метод для генерации случайных фигур и их расположения в таблице
+                                generateShapes() {
+                                    const cellSize = this.calculateCellSize();
+                                    for (let row = 0; row < this.NUM_ROWS; row++) {
+                                        for (let col = 0; col < this.NUM_COLS; col++) {
+                                            var x = col * (cellSize + this.margin) + this.margin;
+                                            var y = row * (cellSize + this.margin) + this.margin;
+                                            this.shapes.push(new Shape(this.getRandomType(), this.getRandomColor(), x, y, cellSize));
+                                        }
+                                    }
+                                }
+
+                                generateShapesByType(type, count) {
+
+                                    var typeIndex = this.shapesType.indexOf(type); // Получаем индекс элемента в массиве
+                                    if (typeIndex !== -1) {
+                                        // Если элемент найден, извлекаем его из массива и удаляем
+                                        this.shapesType.splice(typeIndex, 1);
+                                    }
+                                    var shapesWithoutCords = [];
+                                    for (var i = 0; i < count; i++){
+                                        var color = this.getRandomColor()
+                                        shapesWithoutCords.push(new Shape(type, color))
+                                    }
+                                    for (var i = 0; i < (this.NUM_ROWS*this.NUM_COLS)-count; i++){
+                                        shapesWithoutCords.push(new Shape(this.getRandomType(), this.getRandomColor()));
+                                    }
+                                    shapesWithoutCords = shuffleArray(shapesWithoutCords);
+                                    var indexOfShape = 0;
+                                    var cellSize = this.calculateCellSize();
+                                    for (let row = 0; row < this.NUM_ROWS; row++) {
+                                        for (let col = 0; col < this.NUM_COLS; col++) {
+                                            var x = col * (cellSize + this.margin) + this.margin;
+                                            var y = row * (cellSize + this.margin) + this.margin;
+                                            this.shapes.push(new Shape(shapesWithoutCords[indexOfShape].type,shapesWithoutCords[indexOfShape].color, x, y, cellSize));
+                                            indexOfShape++;
+                                        }
+                                    }
+                                }
+
+                            generateShapesByColor(color, count) {
+
+                                var keys = Object.keys(this.colors);
+                                var colorIndex = keys.indexOf(color);
+                                if (colorIndex !== -1) {
+                                    delete this.colors[color]
+                                }
+                                var shapesWithoutCords = [];
+                                for (var i = 0; i < count; i++) {
+                                    shapesWithoutCords.push(new Shape(this.getRandomType(), color));
+                                }
+                                for (var i = 0; i < (this.NUM_ROWS*this.NUM_COLS)-count; i++) {
+                                    shapesWithoutCords.push(new Shape(this.getRandomType(), this.getRandomColor()));
+                                }
+                                shapesWithoutCords = shuffleArray(shapesWithoutCords);
+                                var indexOfShape = 0;
+                                const cellSize = this.calculateCellSize();
+                                for (let row = 0; row < this.NUM_ROWS; row++) {
+                                    for (let col = 0; col < this.NUM_COLS; col++) {
+                                        var x = col * (cellSize + this.margin) + this.margin;
+                                        var y = row * (cellSize + this.margin) + this.margin;
+
+                                        this.shapes.push(new Shape(shapesWithoutCords[indexOfShape].type, shapesWithoutCords[indexOfShape].color, x, y, cellSize));
+                                        indexOfShape++;
+                                    }
+                            }
+                        }
+
+                            generateShapesByTypeAndColor(type, color, count) {
+
+                                // Проверяем наличие заданного типа и цвета в массивах shapesType и colors
+                                if (!this.isValidType(type) || !this.isValidColor(color)) {
+                                    console.error('Указанный тип или цвет фигуры не найдены.');
                                     return;
-                            }
-                            ctx.fillStyle = this.color;
-                            ctx.fill();
-                        }
-                    }
-
-                    class ShapeTable {
-                        constructor(canvas, margin) {
-                            this.canvas = canvas;
-                            this.ctx = canvas.getContext("2d");
-                            this.shapes = []; // Массив фигур
-                            this.margin = margin;
-                            this.NUM_ROWS = 4;
-                            this.NUM_COLS = 4;
-                            this.shapesType = ['квадрат', 'круг', 'треугольник', 'звезда'];
-                            this.colors = ['red', 'blue', 'green', 'yellow'];
-                        }
-                        // Вспомогательная функция для генерации случайного типа фигуры
-                        getRandomType() {
-                            return this.shapesType[Math.floor(Math.random() * this.shapesType.length)];
-                        }
-
-                        // Вспомогательная функция для генерации случайного цвета
-                        getRandomColor() {
-                            return this.colors[Math.floor(Math.random() * this.colors.length)];
-                        }
-
-                        // Вспомогательная функция для проверки наличия типа в массиве shapesType
-                        isValidType(type) {
-                            return this.shapesType.includes(type);
-                        }
-
-                        // Вспомогательная функция для проверки наличия цвета в массиве colors
-                        isValidColor(color) {
-                            return this.colors.includes(color);
-                        }
-
-                        // Вспомогательная функция для расчета размера ячейки
-                        calculateCellSize() {
-                            return (this.canvas.width - this.margin * (this.NUM_COLS + 1)) / this.NUM_COLS;
-                        }
-
-                        // Метод для генерации случайных фигур и их расположения в таблице
-                        generateShapes() {
-                            const cellSize = this.calculateCellSize();
-                            for (let row = 0; row < this.NUM_ROWS; row++) {
-                                for (let col = 0; col < this.NUM_COLS; col++) {
-                                    var x = col * (cellSize + this.margin) + this.margin;
-                                    var y = row * (cellSize + this.margin) + this.margin;
-                                    this.shapes.push(new Shape(this.getRandomType(), this.getRandomColor(), x, y, cellSize));
                                 }
-                            }
-                        }
 
-                        generateShapesByType(type, count) {
-
-                            var typeIndex = this.shapesType.indexOf(type); // Получаем индекс элемента в массиве
-                            if (typeIndex !== -1) {
-                                // Если элемент найден, извлекаем его из массива и удаляем
+                                // Удаляем заданный тип из массива shapesType
+                                var typeIndex = this.shapesType.indexOf(type);
                                 this.shapesType.splice(typeIndex, 1);
-                            }
-                            var shapesWithoutCords = [];
-                            for (var i = 0; i < count; i++){
-                                var color = this.getRandomColor()
-                                shapesWithoutCords.push(new Shape(type, color))
-                            }
-                            for (var i = 0; i < (this.NUM_ROWS*this.NUM_COLS)-count; i++){
-                                shapesWithoutCords.push(new Shape(this.getRandomType(), this.getRandomColor()));
-                            }
-                            shapesWithoutCords = shuffleArray(shapesWithoutCords);
-                            var indexOfShape = 0;
-                            var cellSize = this.calculateCellSize();
-                            for (let row = 0; row < 4; row++) {
-                                for (let col = 0; col < 4; col++) {
-                                    var x = col * (cellSize + this.margin) + this.margin;
-                                    var y = row * (cellSize + this.margin) + this.margin;
-                                    this.shapes.push(new Shape(shapesWithoutCords[indexOfShape].type,shapesWithoutCords[indexOfShape].color, x, y, cellSize));
-                                    indexOfShape++;
+
+                                // Удаляем заданный цвет из словаря colors
+                                var keys = Object.keys(this.colors);
+                                var colorIndex = keys.indexOf(color);
+                                if (colorIndex !== -1) {
+                                    delete this.colors[color]
+                                }
+
+                                // Генерируем фигуры заданного типа и цвета
+                                var shapesWithoutCords = [];
+                                for (var i = 0; i < count; i++) {
+                                    shapesWithoutCords.push(new Shape(type, color));
+                                }
+
+                                // Дополняем оставшиеся ячейки случайными фигурами других типов и цветов
+                                for (var i = 0; i < (this.NUM_ROWS * this.NUM_COLS) - count; i++) {
+                                    shapesWithoutCords.push(new Shape(this.getRandomType(), this.getRandomColor()));
+                                }
+
+                                // Перемешиваем массив фигур
+                                shapesWithoutCords = shuffleArray(shapesWithoutCords);
+
+                                // Распределяем фигуры заданного типа и цвета между оставшимися случайными
+                                var indexOfShape = 0;
+                                var cellSize = this.calculateCellSize();
+                                for (let row = 0; row < this.NUM_ROWS; row++) {
+                                    for (let col = 0; col < this.NUM_COLS; col++) {
+                                        var x = col * (cellSize + this.margin) + this.margin;
+                                        var y = row * (cellSize + this.margin) + this.margin;
+                                        this.shapes.push(new Shape(shapesWithoutCords[indexOfShape].type, shapesWithoutCords[indexOfShape].color, x, y, cellSize));
+                                        indexOfShape++;
+                                    }
                                 }
                             }
-                        }
 
-                    generateShapesByColor(color, count) {
-                        var colorIndex = this.colors.indexOf(color);
-                        if (colorIndex !== -1) {
-                            this.colors.splice(colorIndex, 1);
-                        }
-                        var shapesWithoutCords = [];
-                        for (var i = 0; i < count; i++) {
-                            shapesWithoutCords.push(new Shape(this.getRandomType(), color));
-                        }
-                        for (var i = 0; i < (this.NUM_ROWS*this.NUM_COLS)-count; i++) {
-                            shapesWithoutCords.push(new Shape(this.getRandomType(), this.getRandomColor()));
-                        }
-                        shapesWithoutCords = shuffleArray(shapesWithoutCords);
-                        var indexOfShape = 0;
-                        const cellSize = this.calculateCellSize();
-                        for (let row = 0; row < 4; row++) {
-                            for (let col = 0; col < 4; col++) {
-                                var x = col * (cellSize + this.margin) + this.margin;
-                                var y = row * (cellSize + this.margin) + this.margin;
-                                this.shapes.push(new Shape(shapesWithoutCords[indexOfShape].type, shapesWithoutCords[indexOfShape].color, x, y, cellSize));
-                                indexOfShape++;
-                            }
-                    }
-                }
-
-                    generateShapesByTypeAndColor(type, color, count) {
-
-                        // Проверяем наличие заданного типа и цвета в массивах shapesType и colors
-                        if (!this.isValidType(type) || !this.isValidColor(color)) {
-                            console.error('Указанный тип или цвет фигуры не найдены.');
-                            return;
-                        }
-
-                        // Удаляем заданный тип из массива shapesType
-                        var typeIndex = this.shapesType.indexOf(type);
-                        this.shapesType.splice(typeIndex, 1);
-
-                        // Удаляем заданный цвет из массива colors
-                        var colorIndex = this.colors.indexOf(color);
-                        this.colors.splice(colorIndex, 1);
-
-                        // Генерируем фигуры заданного типа и цвета
-                        var shapesWithoutCords = [];
-                        for (var i = 0; i < count; i++) {
-                            shapesWithoutCords.push(new Shape(type, color));
-                        }
-
-                        // Дополняем оставшиеся ячейки случайными фигурами других типов и цветов
-                        for (var i = 0; i < (4 * 4) - count; i++) {
-                            shapesWithoutCords.push(new Shape(this.getRandomType(), this.getRandomColor()));
-                        }
-
-                        // Перемешиваем массив фигур
-                        shapesWithoutCords = shuffleArray(shapesWithoutCords);
-
-                        // Распределяем фигуры заданного типа и цвета между оставшимися случайными
-                        var indexOfShape = 0;
-                        var cellSize = this.calculateCellSize();
-                        for (let row = 0; row < 4; row++) {
-                            for (let col = 0; col < 4; col++) {
-                                var x = col * (cellSize + this.margin) + this.margin;
-                                var y = row * (cellSize + this.margin) + this.margin;
-                                this.shapes.push(new Shape(shapesWithoutCords[indexOfShape].type, shapesWithoutCords[indexOfShape].color, x, y, cellSize));
-                                indexOfShape++;
-                            }
-                        }
-                    }
-
-                    generateShapesByTypeAndColorAndRow(type, color, count, customRow) {
-                        if (count > 4) {
-                            console.error('Количество фигур не может быть больше 4.');
-                            return;
-                        }
-                        if (customRow > 3) {
-                            console.error('Индекс строки не может быть больше 3.');
-                            return;
-                        }
-
-                        // Проверяем наличие заданного типа и цвета в массивах shapesType и colors
-                        if (!this.isValidType(type) || !this.isValidColor(color)) {
-                            console.error('Указанный тип или цвет фигуры не найдены.');
-                            return;
-                        }
-
-                        // Генерируем фигуры заданного типа и цвета
-                        var shapesWithoutCordsRow = [];
-                        for (var i = 0; i < count; i++) {
-                            shapesWithoutCordsRow.push(new Shape(type, color));
-                        }
-                        var rowCount = shapesWithoutCordsRow.length;
-                        if (rowCount < 4){
-                            for (var i = 0; i < (4 - rowCount); i++ ){
-                                var randomType = this.getRandomType();
-                                var randomColor = this.getRandomColor();
-                                while (randomType == type && randomColor == color){
-                                    randomType = this.getRandomType();
-                                    randomColor = this.getRandomColor();
+                            generateShapesByTypeAndColorAndRow(type, color, count, customRow) {
+                                if (count > this.NUM_ROWS) {
+                                    console.error('Количество фигур не может быть больше ' + this.NUM_ROWS);
+                                    return;
                                 }
-                                shapesWithoutCordsRow.push(new Shape(randomType, randomColor));
-                            }
-                        }
-                        shapesWithoutCordsRow = shuffleArray(shapesWithoutCordsRow);
-                        var cellSize = this.calculateCellSize();
-                        for (let row = 0; row < 4; row++) {
-                            for (let col = 0; col < 4; col++) {
-                                var x = col * (cellSize + this.margin) + this.margin;
-                                var y = row * (cellSize + this.margin) + this.margin;
-                                if (row != customRow){
-                                    this.shapes.push(new Shape(this.getRandomType(), this.getRandomColor(), x, y, cellSize));
+                                if (customRow > this.NUM_ROWS - 1) {
+                                    console.error('Индекс строки не может быть больше ' + (this.NUM_ROWS - 1));
+                                    return;
                                 }
-                                else{
-                                    this.shapes.push(new Shape(shapesWithoutCordsRow[col].type, shapesWithoutCordsRow[col].color, x, y, cellSize));
+
+                                // Проверяем наличие заданного типа и цвета в массивах shapesType и colors
+                                if (!this.isValidType(type) || !this.isValidColor(color)) {
+                                    console.error('Указанный тип или цвет фигуры не найдены.');
+                                    return;
+                                }
+
+                                // Генерируем фигуры заданного типа и цвета
+                                var shapesWithoutCordsRow = [];
+                                for (var i = 0; i < count; i++) {
+                                    shapesWithoutCordsRow.push(new Shape(type, color));
+                                }
+                                var rowCount = shapesWithoutCordsRow.length;
+                                if (rowCount < this.NUM_COLS){
+                                    for (var i = 0; i < (this.NUM_COLS - rowCount); i++ ){
+                                        var randomType = this.getRandomType();
+                                        var randomColor = this.getRandomColor();
+                                        while (randomType == type && randomColor == color){
+                                            randomType = this.getRandomType();
+                                            randomColor = this.getRandomColor();
+                                        }
+                                        shapesWithoutCordsRow.push(new Shape(randomType, randomColor));
+                                    }
+                                }
+                                shapesWithoutCordsRow = shuffleArray(shapesWithoutCordsRow);
+                                var cellSize = this.calculateCellSize();
+                                console.log(shapesWithoutCordsRow);
+                                for (let row = 0; row < this.NUM_ROWS; row++) {
+                                    for (let col = 0; col < this.NUM_COLS; col++) {
+                                        var x = col * (cellSize + this.margin) + this.margin;
+                                        var y = row * (cellSize + this.margin) + this.margin;
+                                        if (row != customRow){
+                                            this.shapes.push(new Shape(this.getRandomType(), this.getRandomColor(), x, y, cellSize));
+                                        }
+                                        else{
+                                            this.shapes.push(new Shape(shapesWithoutCordsRow[col].type, shapesWithoutCordsRow[col].color, x, y, cellSize));
+                                        }
+                                    }
                                 }
                             }
-                        }
-                    }
 
-                    generateShapesByTypeAndColorAndCol(type, color, count, customCol) {
-                        if (count > 4) {
-                            console.error('Количество фигур не может быть больше 4.');
-                            return;
-                        }
-                        if (customCol > 3) {
-                            console.error('Индекс столбца не может быть больше 3.');
-                            return;
-                        }
-
-                        // Проверяем наличие заданного типа и цвета в массивах shapesType и colors
-                        if (!this.isValidType(type) || !this.isValidColor(color)) {
-                            console.error('Указанный тип или цвет фигуры не найдены.');
-                            return;
-                        }
-
-                        // Генерируем фигуры заданного типа и цвета
-                        var shapesWithoutCordsCol = [];
-                        for (var i = 0; i < count; i++) {
-                            shapesWithoutCordsCol.push(new Shape(type, color));
-                        }
-                        var colCount = shapesWithoutCordsCol.length;
-                        if (colCount < 4){
-                            for (var i = 0; i < (4 - colCount); i++ ){
-                                var randomType = this.getRandomType();
-                                var randomColor = this.getRandomColor();
-                                while (randomType == type && randomColor == color){
-                                    randomType = this.getRandomType();
-                                    randomColor = this.getRandomColor();
+                            generateShapesByTypeAndColorAndCol(type, color, count, customCol) {
+                                if (count > this.NUM_COLS) {
+                                    console.error('Количество фигур не может быть больше ' + this.NUM_COLS);
+                                    return;
                                 }
-                                shapesWithoutCordsCol.push(new Shape(randomType, randomColor));
-                            }
-                        }
-                        shapesWithoutCordsCol = shuffleArray(shapesWithoutCordsCol);
-                        var cellSize = this.calculateCellSize();
-                        for (let col = 0; col < 4; col++) {
-                            for (let row = 0; row < 4; row++) {
-                                var x = col * (cellSize + this.margin) + this.margin;
-                                var y = row * (cellSize + this.margin) + this.margin;
-                                if (col != customCol){
-                                    this.shapes.push(new Shape(this.getRandomType(), this.getRandomColor(), x, y, cellSize));
+                                if (customCol > this.NUM_COLS - 1) {
+                                    console.error('Индекс столбца не может быть больше ' + (this.NUM_COLS - 1));
+                                    return;
                                 }
-                                else{
-                                    this.shapes.push(new Shape(shapesWithoutCordsCol[row].type, shapesWithoutCordsCol[row].color, x, y, cellSize));
+
+                                // Проверяем наличие заданного типа и цвета в массивах shapesType и colors
+                                if (!this.isValidType(type) || !this.isValidColor(color)) {
+                                    console.error('Указанный тип или цвет фигуры не найдены.');
+                                    return;
                                 }
+
+                                // Генерируем фигуры заданного типа и цвета
+                                var shapesWithoutCordsCol = [];
+                                for (var i = 0; i < count; i++) {
+                                    shapesWithoutCordsCol.push(new Shape(type, color));
+                                }
+                                var colCount = shapesWithoutCordsCol.length;
+                                if (colCount < this.NUM_ROWS){
+                                    for (var i = 0; i < (this.NUM_ROWS - colCount); i++ ){
+                                        var randomType = this.getRandomType();
+                                        var randomColor = this.getRandomColor();
+                                        while (randomType == type && randomColor == color){
+                                            randomType = this.getRandomType();
+                                            randomColor = this.getRandomColor();
+                                        }
+                                        shapesWithoutCordsCol.push(new Shape(randomType, randomColor));
+                                    }
+                                }
+                                shapesWithoutCordsCol = shuffleArray(shapesWithoutCordsCol);
+                                console.log(shapesWithoutCordsCol);
+                                var cellSize = this.calculateCellSize();
+                                for (let col = 0; col < this.NUM_COLS; col++) {
+                                    for (let row = 0; row < this.NUM_ROWS; row++) {
+                                        var x = col * (cellSize + this.margin) + this.margin;
+                                        var y = row * (cellSize + this.margin) + this.margin;
+                                        if (col != customCol){
+                                            this.shapes.push(new Shape(this.getRandomType(), this.getRandomColor(), x, y, cellSize));
+                                        }
+                                        else{
+                                            this.shapes.push(new Shape(shapesWithoutCordsCol[row].type, shapesWithoutCordsCol[row].color, x, y, cellSize));
+                                        }
+                                    }
+                                }
+
                             }
-                        }
-
-                    }
 
 
-                    // Метод для отрисовки таблицы с фигурами
-                    draw() {
-                        this.shapes.forEach(shape => {
-                            shape.draw(this.ctx);
-                        });
-                    }
-                    }
-
-                    const shapesType = ['квадрат', 'круг', 'треугольник', 'звезда'];
-                    const colors = ['red', 'blue', 'green', 'yellow'];
-                    var margin = 10; // Отступ между фигурами
-                    var shapeTable = new ShapeTable(canvas, margin);
-
-                    const taskTextBlock = task.split("-"); // type-color-count-direction-number
-                    switch (taskTextBlock.length) {
-                        case 2:
-                            if (shapesType.includes(taskTextBlock[0])) {
-                                shapeTable.generateShapesByType(taskTextBlock[0], parseInt(taskTextBlock[1]));
+                            // Метод для отрисовки таблицы с фигурами
+                            draw() {
+                                this.shapes.forEach(shape => {
+                                    shape.draw(this.ctx);
+                                });
                             }
-                            if (colors.includes(taskTextBlock[0])) {
-                                shapeTable.generateShapesByColor(taskTextBlock[0], parseInt(taskTextBlock[1]));
                             }
-                            break;
-                        case 3:
-                                shapeTable.generateShapesByTypeAndColor(taskTextBlock[0], taskTextBlock[1], parseInt(taskTextBlock[2]))
-                            break;
-                        case 5:
-                            if (taskTextBlock[3] === "row") {
-                                shapeTable.generateShapesByTypeAndColorAndRow(taskTextBlock[0], taskTextBlock[1], parseInt(taskTextBlock[2]), parseInt(taskTextBlock[4]))
+                            const shapesType = ['квадрат', 'круг', 'треугольник', 'звезда'];
+                            const colors = {
+                                'red': '#ED2020',
+                                'blue': '#2B4DFC',
+                                'green': '#0CA725',
+                                'yellow': '#F2DC18'
                             }
-                            if (taskTextBlock[3] === "col") {
-                                shapeTable.generateShapesByTypeAndColorAndCol(taskTextBlock[0], taskTextBlock[1], parseInt(taskTextBlock[2]), parseInt(taskTextBlock[4]))
-                            }
-                            break;
-                    }
+                            var margin = 10; // Отступ между фигурами
+                            const numRows = 4;
+                            const numCols = 6;
+                            var shapeTable = new ShapeTable(canvas, margin, numRows, numCols );
 
-                    shapeTable.draw(); // Отрисовка таблицы с фигурами
+                            const taskTextBlock = task.split("-"); // type-color-count-direction-number
+                            switch (taskTextBlock.length) {
+                                case 2:
+                                    if (shapesType.includes(taskTextBlock[0])) {
+                                        shapeTable.generateShapesByType(taskTextBlock[0], parseInt(taskTextBlock[1]));
+                                    }
+                                    if (Object.keys(colors).includes(taskTextBlock[0])) {
+                                        shapeTable.generateShapesByColor(taskTextBlock[0], parseInt(taskTextBlock[1]));
+                                    }
+                                    break;
+                                case 3:
+                                        shapeTable.generateShapesByTypeAndColor(taskTextBlock[0], taskTextBlock[1], parseInt(taskTextBlock[2]))
+                                    break;
+                                case 5:
+                                    if (taskTextBlock[3] === "row") {
+                                        shapeTable.generateShapesByTypeAndColorAndRow(taskTextBlock[0], taskTextBlock[1], parseInt(taskTextBlock[2]), parseInt(taskTextBlock[4]))
+                                    }
+                                    if (taskTextBlock[3] === "col") {
+                                        shapeTable.generateShapesByTypeAndColorAndCol(taskTextBlock[0], taskTextBlock[1], parseInt(taskTextBlock[2]), parseInt(taskTextBlock[4]))
+                                    }
+                                    break;
+                            }
 
-                    setTimeout(function() {
-                            console.log("Время для просмотра вышло")
-                            ctx.clearRect(0, 0, width, height);
-                            end_animation_div.classList.remove("input-hidden");
-                        }, display_time);
+                            shapeTable.draw(); // Отрисовка таблицы с фигурами
+
+                            setTimeout(function() {
+                                    console.log("Время для просмотра вышло")
+                                    ctx.clearRect(0, 0, width, height);
+                                    hidden_task_memory = document.getElementById("hidden_memory_task");
+                                    console.log(hidden_task_memory)
+                                    task_memorization_text =  document.getElementById("text-task-base-id");
+                                    console.log(task_memorization_text)
+                                    task_memorization_text.innerText = hidden_task_memory.value;
+                                    end_animation_div.classList.remove("input-hidden");
+                                }, display_time);
                             break;
                         }
                     }

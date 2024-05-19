@@ -79,7 +79,6 @@ class Task(models.Model):
     def __str__(self):
         return "№" + str(self.num) + " Задание: " + str(self.task_text)
 
-
     class Meta:
         verbose_name = "Задание"
         verbose_name_plural = "Задания"
@@ -99,11 +98,13 @@ class Result(models.Model):
     allClickCount = models.IntegerField("Общее количество необходимых кликов", blank=True, default=0)
     usersClickCount = models.IntegerField("Количество верных кликов пользователя", blank=True, default=0)
 
-    def get_percentage(self):
-        return self.usersClickCount / self.allClickCount * 100 if self.allClickCount > 0 else 0
+    def get_percentage(self, commonClick=0):
+        if commonClick == 0:
+            return self.usersClickCount / self.allClickCount * 100 if self.allClickCount > 0 else 0
+        return self.usersClickCount / commonClick * 100
 
     def get_grade(self):
-        percentage = (self.correct / self.task_block.task_set.count() ) * 100
+        percentage = (self.correct / self.task_block.task_set.count()) * 100
         grade_thresholds = {
             "easy": [(90, 5), (70, 4), (50, 3)],
             "medium": [(80, 5), (60, 4), (40, 3)],

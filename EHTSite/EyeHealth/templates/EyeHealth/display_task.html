@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
 
-{% if type_of_warm_up != "warmUp" %}
-<div class="task-container">
-    <div class="task-css">
-        <h1>{{title}}</h1>
+<div class="form-body with-nav {% if type_of_warm_up == 'warmUp' %} warm-up-back {% endif %}">
+    {% if type_of_warm_up != "warmUp" %}
+    <div class="task-container">
+    <div class="task-css {%if type_of_warm_up == 'memorization' %} memory-task-align {% endif %}">
+        <h1 class="task-title">{{title}}</h1>
         <form id="task-form"
                 action="{% url 'EyeHealth:task_grade' type_of_warm_up difficulty_level task.num %}"
                 method="post">
@@ -15,8 +16,7 @@
                   <input type="hidden" id="hidden_animatic_type" value="{{animatic_type}}">
                   <input type="hidden" id="hidden_id_answered" value="{{is_answered}}">
                   <input type="hidden" id="hidden_result" name = "hidden_result" value="">
-
-
+                  <input type="hidden" id="hidden_memory_task" value="{{memory_task}}">
                   <div class="task-css">
                       <p id="text-task-base-id" class="text-task-base" >{%if type_of_warm_up == "observation"%}Нажимайте по фигуре, когда она загорается зеленым:
                       {%else%}
@@ -24,25 +24,25 @@
                       <canvas id="canvas-task" class="canvas-task"></canvas>
                   </div>
                   <div class="task-controls">
-                      <div class="start-animation" id="start-animation-id">
-                          <button type="button" class="start-animation-btn" id="start-animation-btn-id">Начать</button>
+                      <div class="task-btn-size  start-animation" id="start-animation-id">
+                          <button type="button" class="btn-default   start-animation-btn" id="start-animation-btn-id">Начать</button>
                       </div>
                       <div class="end-animation input-hidden " id="end-animation-id">
                           {%if type_of_warm_up == "observation"%}
-                          <div class="{% if is_answered %} input-hidden {%endif %}">
+                          <div class="task-btn-size {% if is_answered %} input-hidden {%endif %}">
                                <input type="submit" class="btn-default" value="{{btn_text}}"/>
                           </div>
                           {%else%}
                           <div class="answer-memory">
-                              <span class="memory-task {% if is_answered %} input-hidden {%endif %}" id="memory-task-id">{{memory_task}}</span>
+
                               <div class="answer-memory-field {% if is_answered %} input-hidden {%endif %}">
-                                  <input type="number" name="count-answer" class="form-control" required placeholder="Ответ" maxlength="10" id="count-answer-id">
-                                  <input type="submit" class="btn-default" value="{{btn_text}}"/>
+                                  <input type="number" name="count-answer" class="form-control count-answer-input" required placeholder="Ответ" maxlength="10" id="count-answer-id">
+                                  <input type="submit" class="btn-default btn-answer" value="{{btn_text}}"/>
                               </div>
                           </div>
                           {%endif%}
-                          <div class="{% if not is_answered %} input-hidden {%endif %}">
-                            <a class="ref-btn-task ref-animatic-btn-nav"
+                          <div class="task-btn-size {% if not is_answered %} input-hidden {%endif %}">
+                            <a class="btn-default"
                                {% if next_task %}
                                href="{% url 'EyeHealth:display_task' type_of_warm_up difficulty_level next_task.num %}">Следующее задание</a>
                                {% else %}
@@ -55,11 +55,15 @@
           </form>
     </div>
 </div>
-
-{% else %}
-<div class="div-canvas-warm-up">
-    <input type="hidden" id="hidden_difficulty_level_warm_up" value="{{difficulty_level}}">
-    <canvas id="canvas-warm-up" class = "canvas-warm-up"></canvas>
+    {% else %}
+    <div class="div-canvas-warm-up">
+        <p class="text-task-base warm-up-text" >Внимательно следите за движением точки</p>
+        <input type="hidden" id="hidden_difficulty_level_warm_up" value="{{difficulty_level}}">
+        <canvas id="canvas-warm-up" class = "canvas-warm-up"></canvas>
+    </div>
+    {% endif %}
 </div>
-{% endif %}
+
+
+
 {% endblock %}
