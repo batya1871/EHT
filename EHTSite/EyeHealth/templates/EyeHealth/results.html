@@ -1,44 +1,58 @@
 {% extends 'base.html' %}
 {% block content %}
-<div>
-        <table class="table table-results">
-            <thead class="table-header-css">
-                <tr class="table-header-tr-css">
-                    <th scope="col" >Показатели</th>
-                    <th scope="col" >Результаты</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% if type_of_warm_up == "memorization" %}
-                <tr>
-                    <td>Всего вопросов</td>
-                    <td>{{ result_data.task_count }}</td>
-                </tr>
-                <tr>
-                    <td>Правильные ответы</td>
-                    <td>{{ result_data.correct }}</td>
-                </tr>
-                <tr>
-                    <td>Неправильные ответы</td>
-                    <td>{{ result_data.wrong }}</td>
-                </tr>
-                <tr>
-                    <td>Оценка</td>
-                    <td>{{ result_data.grade }}</td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td>Процент попаданий</td>
-                    <td>{{ result_data.percentage }}%</td>
-                </tr>
-                <tr>
-                    <td>Показатель</td>
-                    <td>{{ result_data.percentage_mgs }}</td>
-                </tr>
-            {% endif %}
-            </tbody>
-        </table>
-    <a class="ref-btn-task ref-animatic-btn-nav"
-       href="{% url 'EyeHealth:type_selection'  %}">К выбору разминки</a>
+
+<div class="form-body with-nav">
+    <div class="form-block login-block">
+        <div class="form-with-background">
+            <div class="background-block login-block-part"></div>
+            <div class="foreground-block-result login-block-part result-block">
+                <div class="form-users-css form-results">
+                      <div class="results-div">
+                        <table class="table table-results">
+                            <thead class="table-header-css">
+                                <tr class="table-header-tr-css">
+                                    <th scope="col" >Показатели</th>
+                                    <th scope="col" >Результаты</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% if type_of_warm_up == "memorization" %}
+                                <tr>
+                                    <td>Всего вопросов</td>
+                                    <td>{{ result_data.task_count }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Правильные ответы</td>
+                                    <td>{{ result_data.correct }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Неправильные ответы</td>
+                                    <td>{{ result_data.wrong }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Оценка</td>
+                                    <td>{{ result_data.grade }}</td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td>Процент попаданий</td>
+                                    <td>{{ result_data.percentage }}%</td>
+                                </tr>
+                                <tr>
+                                    <td>Показатель</td>
+                                    <td>{{ result_data.percentage_mgs }}</td>
+                                </tr>
+                            {% endif %}
+                            </tbody>
+                        </table>
+                        <a class="btn-default btn-results"
+                           href="{% url 'EyeHealth:type_selection'  %}">К выбору разминки</a>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
 {% endblock %}

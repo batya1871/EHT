@@ -152,6 +152,17 @@ img {
    /* padding-left: 3% !important; */
     text-align: center;
 }
+.result-block{
+    padding:0 !important;
+    overflow: hidden !important;
+}
+.form-results{
+    padding:0 !important;
+}
+.btn-results{
+    margin: 0 !important;
+    border-radius:0 !important;
+}
 .form-padding-top-selection {
     padding-top: 10% !important;
 }
@@ -200,12 +211,20 @@ img {
 
 table tr {
     font-weight: bold; /* Жирный шрифт для всех строк таблицы */
-    --bs-table-bg: #c9dfff;
+    --bs-table-bg: #fff;
 
 }
-.table {
-    --bs-table-border-color: #0a408f !important;
+table tr th {
+    border-right: 1px solid #9682C4 !important;
 }
+table tr td {
+    border-right: 1px solid #9682C4 !important;
+}
+.table {
+    --bs-table-border-color: #9682C4 !important;
+    margin-bottom: 0 !important;
+}
+
 .statistic-div{
     height: auto;
     background-color:#c9dfff;
@@ -421,14 +440,15 @@ table tr {
 /* Results */
 
 .table-header-css tr{
-    --bs-table-bg: #0a408f;
+    --bs-table-bg: #9682c4;
 
 }
 .table-header-tr-css th{
     color:#fff !important;
 }
 .table-results {
-    border-top: 1px solid #1356b8 !important ;
+    border-top: 1px solid #9682C4 !important ;
+    border-radius:20px;
 }
 .greate-grade{
     color: #16e716 !important;
@@ -514,6 +534,13 @@ table tr {
 /* Results */
 
 /* USERS */
+.change-pass-text{
+    margin-top: 15px;
+}
+.change-block-part {
+    left: 19% !important;
+    height: 50% !important;
+}
 .form-body{
     height:100%;
     min-width: 100%;
@@ -653,6 +680,23 @@ position: absolute;
     box-shadow: -6px -6px 10px 10px rgba(0, 0, 0, 0.1),6px 6px 10px 10px rgba(0, 0, 0, 0.1);
 }
 
+.foreground-block-result{
+    background-color: #9682c4 ;
+    position: absolute;
+    width: 85%;
+    min-height: 33%;
+    top: 51%;
+    left: 42%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: -6px -6px 10px 10px rgba(0, 0, 0, 0.1),6px 6px 10px 10px rgba(0, 0, 0, 0.1);
+}
+
+
 .foreground-block-profile{
     height: 82%;
 }
@@ -678,6 +722,15 @@ position: absolute;
     padding-right: 5%;
     padding-top: 10%;
     padding-bottom: 10%;
+
+}
+.results-div{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100%;
+    min-height: 100%;
+    border-radius: 20px;
 
 }
 .form-padding-top{
