@@ -103,8 +103,6 @@ img {
     justify-content: space-around;
     flex-wrap: wrap;
 }
-
-
 .btn-type-of-warm-up{
   color: #fff;
   background-color:#0a408f;
@@ -152,9 +150,21 @@ img {
    /* padding-left: 3% !important; */
     text-align: center;
 }
+.result-block{
+    padding:0 !important;
+    overflow: hidden !important;
+}
+.form-results{
+    padding:0 !important;
+}
+.btn-results{
+    margin: 0 !important;
+    border-radius:0 !important;
+}
 .form-padding-top-selection {
     padding-top: 10% !important;
 }
+
 .selections{
     margin-bottom: 10%;
     padding-left: 4%;
@@ -199,12 +209,18 @@ img {
 /* Statistic */
 
 table tr {
-    font-weight: bold; /* Жирный шрифт для всех строк таблицы */
-    --bs-table-bg: #c9dfff;
-
+    font-weight: bold;
+    --bs-table-bg: #fff;
+}
+table tr th {
+    border-right: 1px solid #9682C4 !important;
+}
+table tr td {
+    border-right: 1px solid #9682C4 !important;
 }
 .table {
-    --bs-table-border-color: #0a408f !important;
+     --bs-table-border-color: #9682C4 !important;
+    margin-bottom: 0 !important;
 }
 .statistic-div{
     height: auto;
@@ -400,47 +416,16 @@ table tr {
     margin-bottom: 15px;
 }
 
-
-/* berfore results */
-/*
-Задний фон
-        table tr {
-    font-weight: bold;
-    --bs-table-bg: #c9dfff;
-    color: #fff;
-
-}
-.table {
-    --bs-table-border-color: #0a408f !important;
-}
-.statistic-div{
-    background-color:#c9dfff;
-    height: 91%;
-}
-*/
-/* Results */
-
 .table-header-css tr{
-    --bs-table-bg: #0a408f;
+    --bs-table-bg: #9682c4;
 
 }
 .table-header-tr-css th{
     color:#fff !important;
 }
 .table-results {
-    border-top: 1px solid #1356b8 !important ;
-}
-.greate-grade{
-    color: #16e716 !important;
-}
-.good-grade{
-    color: dodgerblue !important;
-}
-.ok-grade{
-    color: #fdff00 !important;
-}
-.bad-grade{
-    color:#ff3232 !important;
+    border-top: 1px solid #9682C4 !important ;
+    border-radius:20px;
 }
 
 .wrong-h2{
@@ -507,13 +492,18 @@ table tr {
 .wrong-answers-right{
     margin-left: 0px;
 }
-.wrong-answers-left{
+    .wrong-answers-left{
     margin-right: 15px;
 }
 }
-/* Results */
-
 /* USERS */
+.change-pass-text{
+    margin-top: 15px;
+}
+.change-block-part {
+    left: 19% !important;
+    height: 50% !important;
+}
 .form-body{
     height:100%;
     min-width: 100%;
@@ -552,6 +542,7 @@ table tr {
     flex-direction:row;
     align-items: center
 }
+
 .email-input{
     display:flex;
     flex-direction:row;
@@ -564,8 +555,8 @@ table tr {
     margin-top: 24px !important;
 }
 .login-to-reg{
-    padding-right: 13%;
-    padding-left: 10%;
+    padding-right: 6%;
+    padding-left: 4%;
     margin-top: 6% !important;
     justify-content: space-around !important;
 }
@@ -595,7 +586,6 @@ table tr {
     text-align:center;
     margin-bottom:5%;
 }
-
 .after-title{
     text-align:center;
 }
@@ -639,10 +629,25 @@ table tr {
 }
 .foreground-block{
 position: absolute;
-    width: 85%;
-    height: 85%;
+    width: 90%;
+    height: 90%;
     top: 51%;
     background: #fff;
+    left: 42%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: -6px -6px 10px 10px rgba(0, 0, 0, 0.1),6px 6px 10px 10px rgba(0, 0, 0, 0.1);
+}
+.foreground-block-result{
+    background-color: #9682c4 ;
+    position: absolute;
+    width: 85%;
+    min-height: 33%;
+    top: 51%;
     left: 42%;
     transform: translate(-50%, -50%);
     z-index: 2;
@@ -656,8 +661,6 @@ position: absolute;
 .foreground-block-profile{
     height: 82%;
 }
-
-
 .form-control{
     border-radius: 20px !important;
     border: 1.5px solid #9682C4 !important;
@@ -680,8 +683,17 @@ position: absolute;
     padding-bottom: 10%;
 
 }
+.results-div{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100%;
+    min-height: 100%;
+    border-radius: 20px;
+
+}
 .form-padding-top{
-    padding-top: 17%;
+    padding-top: 12%;
 }
 .form-padding-top-reset{
     padding-top: 10%;
@@ -715,7 +727,6 @@ position: absolute;
     min-width:40%;
     margin-left:5px;
 }
-
 .errorlist
     {
     color: var(--bs-form-invalid-color);
@@ -730,12 +741,13 @@ position: absolute;
 }
 .errorlist li {
     word-break: break-word;
-    font-size: 14px;
+    font-size: 12px;
 }
 .form-text-div{
     display:flex;
     justify-content: center;
 }
+
 .form-text-div-pass-reset-comp {
     display: flex;
     justify-content: center;
@@ -841,7 +853,6 @@ position: absolute;
 
 }
 
-
 .text{
     display:flex;
     margin-top: 30px;
@@ -882,6 +893,7 @@ position: absolute;
 .change-pass-errors ul {
     margin-bottom: 0;
 }
+
 .form-email-reset{
     min-height: 30%;
 }
