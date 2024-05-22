@@ -128,10 +128,10 @@ class WarmUpService:
         result = Result.objects.get(user=user)
         result_data = {}
         # Формируем результаты
-        task_block = self.get_active_block(user)
-        # Берем из него все задания в список, в порядке возрастания номеров
-        task_list = task_block.task_set.order_by('num')
         if type_of_warm_up == "observation":
+            task_block = self.get_active_block(user)
+            # Берем из него все задания в список, в порядке возрастания номеров
+            task_list = task_block.task_set.order_by('num')
             commonClick = 0
             for task in task_list:
                 commonClick += int(task.correct_answer)
@@ -139,9 +139,9 @@ class WarmUpService:
             result_data['percentage_mgs'] = self.get_percentage_mgs(result.get_percentage(), difficulty_level)
         if type_of_warm_up == "memorization":
             result_data['correct'] = result.correct
-            result_data['wrong'] = (len(task_list) - result.correct)
+            result_data['wrong'] = result.wrong
             result_data['grade'] = result.get_grade()
-            result_data['task_count'] = (len(task_list))
+            result_data['task_count'] = (result.wrong + result.correct)
             print((result.wrong + result.correct))
         print(result_data)
         self.context['result_data'] = result_data

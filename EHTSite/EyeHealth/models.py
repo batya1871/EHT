@@ -15,6 +15,10 @@ class MyUser(AbstractUser):
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
 
+    def clean_data(self):
+        self.choice_set.all().delete()
+        self.result_set.all().delete()
+
 
 class Type_of_warm_up(models.Model):
     name = models.CharField("Название", max_length=15, unique=True)
